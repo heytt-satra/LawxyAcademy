@@ -1,0 +1,607 @@
+/* ==========================================================================
+   LAWXY ACADEMY — HARVEY-ALIGNED EDITORIAL DESIGN SYSTEM
+   Matches exact layout, typography, dimensions & grid from Harvey Academy
+   ========================================================================== */
+
+:root {
+  /* Brand Colors (Lawxy Palette) */
+  --lx-primary: #02212e;
+  --lx-primary-hover: #043142;
+  --lx-teal: #287796;
+  --lx-cyan: #80e5ff;
+  --lx-cyan-soft: rgba(128, 229, 255, 0.12);
+  --lx-gold: #d4af37;
+  --lx-gold-soft: #fef9ee;
+
+  /* Neutrals */
+  --lx-bg-page: #ffffff;
+  --lx-bg-subtle: #fbfbfa;
+  --lx-bg-card: #ffffff;
+  --lx-border: #e6e6e6;
+  --lx-border-subtle: #f0f0f0;
+  
+  /* Text */
+  --lx-text-main: #111827;
+  --lx-text-body: #4b5563;
+  --lx-text-muted: #6b7280;
+  --lx-text-subtle: #9ca3af;
+
+  /* Typography */
+  --font-serif: 'Libre Caslon Text', Georgia, serif;
+  --font-sans: 'DM Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Fragment Mono', monospace;
+
+  /* Spatial Scale */
+  --container-max: 1200px;
+  --radius-btn: 5px;
+  --radius-card: 10px;
+  --radius-pill: 9999px;
+  
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.07);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--lx-text-body);
+  background-color: var(--lx-bg-page);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   GLOBAL LAYOUT UTILITIES & CONTAINERS
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.container-narrow {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ==========================================================================
+   HARVEY-STYLE HEADER & NAVBAR
+   ========================================================================== */
+
+.academy-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #ffffff;
+  border-bottom: 1px solid var(--lx-border-subtle);
+  height: 72px;
+  display: flex;
+  align-items: center;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.brand-wrapper {
+  display: flex;
+  align-items: baseline;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.brand-name {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 22px;
+  color: #000000;
+  letter-spacing: -0.02em;
+}
+
+.brand-academy {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 22px;
+  color: #000000;
+  letter-spacing: -0.02em;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-link {
+  color: #374151;
+  font-size: 14.5px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 150ms ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: #000000;
+  font-weight: 600;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 7px 14px;
+  width: 200px;
+  transition: all 150ms ease;
+}
+
+.search-box:focus-within {
+  border-color: #000000;
+  width: 240px;
+  box-shadow: 0 0 0 1px #000000;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--lx-text-main);
+  width: 100%;
+  font-family: inherit;
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+.sign-in-btn {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #111827;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sign-in-btn:hover {
+  color: #000000;
+  font-weight: 600;
+}
+
+.brand-spark-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: #111827;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lx-cyan);
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 150ms;
+}
+
+.brand-spark-badge:hover {
+  transform: rotate(45deg);
+}
+
+/* ==========================================================================
+   HARVEY HERO SECTION
+   ========================================================================== */
+
+.hero-layout {
+  padding: 56px 0 64px;
+  display: grid;
+  grid-template-columns: 46% 54%;
+  gap: 40px;
+  align-items: center;
+}
+
+.hero-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(3.2rem, 5.2vw, 4.6rem);
+  font-weight: 400;
+  line-height: 1.06;
+  color: #111827;
+  letter-spacing: -0.025em;
+  margin-bottom: 24px;
+}
+
+.hero-description {
+  font-size: 16.5px;
+  line-height: 1.65;
+  color: #4b5563;
+  max-width: 440px;
+  margin-bottom: 32px;
+}
+
+.btn-harvey-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--lx-primary);
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--lx-primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.btn-harvey-primary:hover {
+  background: var(--lx-primary-hover);
+  transform: translateY(-1px);
+}
+
+.hero-sketch-container {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-sketch-img {
+  width: 100%;
+  max-height: 440px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* ==========================================================================
+   FEATURED CONTENT SECTION & CARD GRID
+   ========================================================================== */
+
+.section-container {
+  padding: 48px 0 80px;
+}
+
+.section-heading-serif {
+  font-family: var(--font-serif);
+  font-size: 36px;
+  font-weight: 400;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin-bottom: 32px;
+}
+
+.cards-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.harvey-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  cursor: pointer;
+  background: #ffffff;
+  transition: transform 180ms ease;
+}
+
+.harvey-card:hover {
+  transform: translateY(-2px);
+}
+
+.card-thumbnail-box {
+  width: 100%;
+  aspect-ratio: 16 / 9.5;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  border: 1px solid var(--lx-border);
+  position: relative;
+  background: var(--lx-bg-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-thumb-badge-l {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: #111827;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-thumb-lock {
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  font-size: 12px;
+  color: #4b5563;
+}
+
+.card-typography-poster {
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #fdfdfd;
+}
+
+.card-typography-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 400;
+  color: #111827;
+  line-height: 1.15;
+}
+
+.card-info {
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-title {
+  font-family: var(--font-sans);
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+  line-height: 1.35;
+}
+
+.card-desc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #4b5563;
+  margin-bottom: 14px;
+  flex-grow: 1;
+}
+
+.card-meta {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+/* ==========================================================================
+   VIEW SWITCHER / SPA CONTAINER
+   ========================================================================== */
+
+.app-view {
+  display: none;
+}
+
+.app-view.active {
+  display: block;
+  animation: fadeIn 180ms ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==========================================================================
+   STUDIO / VIDEO MASTERCLASS VIEW (HARVEY STYLED)
+   ========================================================================== */
+
+.studio-wrapper {
+  padding: 32px 0 80px;
+}
+
+.studio-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 36px;
+  align-items: start;
+}
+
+.video-frame-box {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  border: 1px solid var(--lx-border);
+  background: #000000;
+  position: relative;
+}
+
+.video-hud-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.4) 60%, transparent 100%);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.video-scrubber-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+.video-scrubber-fill {
+  height: 100%;
+  width: 38%;
+  background: var(--lx-cyan);
+  border-radius: var(--radius-pill);
+}
+
+.video-controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.tabs-nav-bar {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid var(--lx-border);
+  margin: 28px 0 20px;
+}
+
+.tab-nav-btn {
+  padding: 10px 0;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  position: relative;
+  transition: color 150ms;
+}
+
+.tab-nav-btn.active {
+  color: #111827;
+  font-weight: 700;
+}
+
+.tab-nav-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #111827;
+}
+
+.tab-content-panel {
+  display: none;
+}
+
+.tab-content-panel.active {
+  display: block;
+}
+
+/* ==========================================================================
+   PROCTORED EXAM VIEW (HARVEY STYLED)
+   ========================================================================== */
+
+.exam-card-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 0 80px;
+}
+
+.exam-box {
+  background: #ffffff;
+  border: 1px solid var(--lx-border);
+  border-radius: var(--radius-card);
+  padding: 36px;
+}
+
+.exam-option-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  border: 1px solid var(--lx-border);
+  border-radius: 6px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 150ms ease;
+  background: #ffffff;
+}
+
+.exam-option-item:hover {
+  border-color: #9ca3af;
+  background: var(--lx-bg-subtle);
+}
+
+.exam-option-item.selected {
+  border-color: var(--lx-primary);
+  background: #f0f7fa;
+}
+
+/* ==========================================================================
+   CERTIFICATION & REGISTRY VIEW (HARVEY STYLED)
+   ========================================================================== */
+
+.registry-card {
+  background: #ffffff;
+  border: 1px solid var(--lx-border);
+  border-radius: var(--radius-card);
+  padding: 36px;
+}
+
+/* ==========================================================================
+   FOOTER (HARVEY STYLED)
+   ========================================================================== */
+
+.academy-footer {
+  background: #ffffff;
+  border-top: 1px solid var(--lx-border);
+  padding: 48px 0 32px;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13.5px;
+  color: #6b7280;
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+
+@media (max-width: 960px) {
+  .hero-layout { grid-template-columns: 1fr; }
+  .cards-grid-3 { grid-template-columns: 1fr; }
+  .studio-layout-grid { grid-template-columns: 1fr; }
+  .nav-menu { display: none; }
+}
