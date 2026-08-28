@@ -26,6 +26,14 @@
   --lx-text-muted: #6b7280;
   --lx-text-subtle: #9ca3af;
 
+  /* Status Colors */
+  --lx-emerald: #059669;
+  --lx-emerald-bg: #ecfdf5;
+  --lx-rose: #dc2626;
+  --lx-rose-bg: #fef2f2;
+  --lx-amber: #d97706;
+  --lx-amber-bg: #fffbeb;
+
   /* Typography */
   --font-serif: 'Libre Caslon Text', Georgia, serif;
   --font-sans: 'DM Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -143,7 +151,7 @@ body {
 
 .nav-link:hover, .nav-link.active {
   color: #000000;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .header-right {
@@ -194,7 +202,7 @@ body {
 
 .sign-in-btn:hover {
   color: #000000;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .brand-spark-badge {
@@ -266,6 +274,27 @@ body {
   transform: translateY(-1px);
 }
 
+.btn-harvey-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #111827;
+  font-size: 14.5px;
+  font-weight: 600;
+  padding: 11px 22px;
+  border-radius: var(--radius-btn);
+  border: 1px solid #d1d5db;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 180ms ease;
+}
+
+.btn-harvey-secondary:hover {
+  border-color: #111827;
+  background: var(--lx-bg-subtle);
+}
+
 .hero-sketch-container {
   width: 100%;
   border-radius: 12px;
@@ -282,7 +311,7 @@ body {
 }
 
 /* ==========================================================================
-   FEATURED CONTENT SECTION & CARD GRID
+   FEATURED CONTENT SECTION & CARD GRID (EXACT 3 CARDS)
    ========================================================================== */
 
 .section-container {
@@ -526,12 +555,30 @@ body {
   display: block;
 }
 
+/* Tough Lecture Quiz Block */
+.lecture-quiz-container {
+  margin-top: 36px;
+  border: 1px solid var(--lx-border);
+  border-radius: var(--radius-card);
+  padding: 28px;
+  background: #ffffff;
+}
+
+.quiz-question-card {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--lx-border-subtle);
+}
+
+.quiz-question-card:last-child {
+  border-bottom: none;
+}
+
 /* ==========================================================================
    PROCTORED EXAM VIEW (HARVEY STYLED)
    ========================================================================== */
 
 .exam-card-wrapper {
-  max-width: 800px;
+  max-width: 840px;
   margin: 0 auto;
   padding: 40px 0 80px;
 }
@@ -564,6 +611,15 @@ body {
 .exam-option-item.selected {
   border-color: var(--lx-primary);
   background: #f0f7fa;
+}
+
+/* Exam Result View */
+.exam-result-box {
+  background: #ffffff;
+  border: 1px solid var(--lx-border);
+  border-radius: var(--radius-card);
+  padding: 40px;
+  text-align: center;
 }
 
 /* ==========================================================================

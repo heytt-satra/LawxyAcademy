@@ -17,6 +17,7 @@
 
   <!-- ======================================================================
        HARVEY ACADEMY HEADER
+       Nav: Home | Courses | Your Certifications
        ====================================================================== -->
   <header class="academy-header">
     <div class="container header-inner">
@@ -27,10 +28,8 @@
       <nav>
         <ul class="nav-menu">
           <li><a class="nav-link active" id="nav-landing" onclick="switchView('landing')">Home</a></li>
-          <li><a class="nav-link" id="nav-courses" onclick="switchView('courses')">Library</a></li>
-          <li><a class="nav-link" id="nav-lesson" onclick="openLesson('l1-2')">Webinars</a></li>
-          <li><a class="nav-link" id="nav-exam" onclick="switchView('exam')">Certifications</a></li>
-          <li><a class="nav-link" id="nav-verify" onclick="switchView('verify')">Help ▾</a></li>
+          <li><a class="nav-link" id="nav-courses" onclick="switchView('courses')">Courses</a></li>
+          <li><a class="nav-link" id="nav-certifications" onclick="switchView('certifications')">Your Certifications</a></li>
         </ul>
       </nav>
 
@@ -40,14 +39,14 @@
           <input type="text" class="search-input" placeholder="Search" id="global-search-input" onkeyup="handleGlobalSearch(event)">
         </div>
 
-        <a class="sign-in-btn" onclick="switchView('dashboard')">Sign In</a>
-        <div class="brand-spark-badge" onclick="switchView('admin')" title="Lawxy Portal">✳</div>
+        <a class="sign-in-btn" id="header-auth-trigger" onclick="switchView('certifications')">Sign In</a>
+        <div class="brand-spark-badge" onclick="switchView('admin')" title="Faculty Command Center">✳</div>
       </div>
     </div>
   </header>
 
   <!-- ======================================================================
-       VIEW: HOMEPAGE / LANDING (EXACT HARVEY ACADEMY LAYOUT)
+       VIEW 1: HOMEPAGE / LANDING (EXACT 3 FEATURED COURSES)
        ====================================================================== -->
   <main id="view-landing" class="app-view active">
     <!-- Hero Section -->
@@ -67,15 +66,15 @@
       </div>
     </section>
 
-    <!-- Featured Content Section (Exact 3-Column Harvey Grid) -->
+    <!-- Featured Content Section (ONLY THREE COURSES) -->
     <section class="section-container" style="background: #ffffff; border-top: 1px solid var(--lx-border-subtle);">
       <div class="container">
         <h2 class="section-heading-serif">Featured Content</h2>
 
         <div class="cards-grid-3">
           
-          <!-- Card 1: Level 1 Foundations -->
-          <div class="harvey-card" onclick="openLesson('l1-2')">
+          <!-- Course 1: Level 1 Foundations -->
+          <div class="harvey-card" onclick="openCourse('level-1')">
             <div class="card-thumbnail-box">
               <img src="/images/card-foundations.jpg" alt="Level 1 Foundations" class="card-thumb-img">
               <div class="card-thumb-badge-l">L</div>
@@ -84,12 +83,12 @@
             <div class="card-info">
               <h3 class="card-title">Level 1 Foundations</h3>
               <p class="card-desc">Build AI literacy before trusting generative AI output in this foundational certification.</p>
-              <div class="card-meta">3 Courses</div>
+              <div class="card-meta">3 Courses · 12 Modules</div>
             </div>
           </div>
 
-          <!-- Card 2: Legal Engineering Certification -->
-          <div class="harvey-card" onclick="switchView('courses')">
+          <!-- Course 2: Legal Engineering Certification -->
+          <div class="harvey-card" onclick="openCourse('legal-engineering')">
             <div class="card-thumbnail-box">
               <div class="card-typography-poster">
                 <div style="font-size: 11px; font-weight: 700; color: #111827; margin-bottom: 8px;">LawxyAcademy</div>
@@ -101,12 +100,12 @@
             <div class="card-info">
               <h3 class="card-title">Legal Engineering Certification</h3>
               <p class="card-desc">Learn the core competencies of a legal engineer in this specialized certification.</p>
-              <div class="card-meta">2 Courses</div>
+              <div class="card-meta">2 Courses · 6 Modules</div>
             </div>
           </div>
 
-          <!-- Card 3: Building Workflow Agents -->
-          <div class="harvey-card" onclick="openLesson('l1-2')">
+          <!-- Course 3: Building Workflow Agents -->
+          <div class="harvey-card" onclick="openCourse('workflow-agents')">
             <div class="card-thumbnail-box">
               <img src="/images/card-workflows.jpg" alt="Building Workflow Agents" class="card-thumb-img">
               <div class="card-thumb-badge-l">L</div>
@@ -114,56 +113,7 @@
             <div class="card-info">
               <h3 class="card-title">Building Workflow Agents</h3>
               <p class="card-desc">Learn to turn ad hoc prompts into reliable Workflow agents your whole team can run — covering building, grounding, and sharing for consistent results.</p>
-              <div class="card-meta">6 min</div>
-            </div>
-          </div>
-
-          <!-- Card 4: Review Tables for Due Diligence -->
-          <div class="harvey-card" onclick="switchView('courses')">
-            <div class="card-thumbnail-box">
-              <div class="card-typography-poster" style="background: #fafaf9;">
-                <div style="font-size: 10.5px; font-weight: 700; color: var(--lx-teal); text-transform: uppercase; margin-bottom: 8px;">M&A | Transactional</div>
-                <div class="card-typography-title" style="font-size: 20px;">Review Tables for<br>Due Diligence</div>
-              </div>
-              <div class="card-thumb-badge-l">L</div>
-            </div>
-            <div class="card-info">
-              <h3 class="card-title">Review Tables for Due Diligence</h3>
-              <p class="card-desc">Master batch agreement comparison, deviation scoring, and automated indemnification audit tables.</p>
-              <div class="card-meta">12 min · Masterclass</div>
-            </div>
-          </div>
-
-          <!-- Card 5: Litigation Fact Matrix Extraction -->
-          <div class="harvey-card" onclick="switchView('courses')">
-            <div class="card-thumbnail-box">
-              <div class="card-typography-poster" style="background: #fafaf9;">
-                <div style="font-size: 10.5px; font-weight: 700; color: var(--lx-teal); text-transform: uppercase; margin-bottom: 8px;">Litigation | Case Lens</div>
-                <div class="card-typography-title" style="font-size: 20px;">Deposition & Brief<br>Citation Auditing</div>
-              </div>
-              <div class="card-thumb-badge-l">L</div>
-            </div>
-            <div class="card-info">
-              <h3 class="card-title">Deposition & Brief Citation Auditing</h3>
-              <p class="card-desc">Extract chronological factual timelines and cross-examine witness testimonies against documentary exhibits.</p>
-              <div class="card-meta">18 min · Hands-on</div>
-            </div>
-          </div>
-
-          <!-- Card 6: ABA Model Rules & Confidentiality -->
-          <div class="harvey-card" onclick="switchView('exam')">
-            <div class="card-thumbnail-box">
-              <div class="card-typography-poster" style="background: #fafaf9;">
-                <div style="font-size: 10.5px; font-weight: 700; color: #991b1b; text-transform: uppercase; margin-bottom: 8px;">Ethics & Responsibility</div>
-                <div class="card-typography-title" style="font-size: 20px;">ABA Rule 1.1 / 1.6<br>Compliance Protocol</div>
-              </div>
-              <div class="card-thumb-badge-l">L</div>
-              <div class="card-thumb-lock">🔒</div>
-            </div>
-            <div class="card-info">
-              <h3 class="card-title">ABA Rule 1.1 / 1.6 Compliance Protocol</h3>
-              <p class="card-desc">Ensure strict compliance with attorney supervision, client privilege preservation, and hallucination defense.</p>
-              <div class="card-meta">Certified Exam Module</div>
+              <div class="card-meta">6 min · Advanced Matter</div>
             </div>
           </div>
 
@@ -173,42 +123,71 @@
   </main>
 
   <!-- ======================================================================
-       VIEW: LIBRARY / CURRICULUM SYLLABUS
+       VIEW 2: COURSES / LIBRARY (ALL AVAILABLE TRACKS)
        ====================================================================== -->
   <main id="view-courses" class="app-view">
     <div style="border-bottom: 1px solid var(--lx-border); padding: 40px 0 28px;">
       <div class="container">
-        <h1 class="section-heading-serif" style="margin-bottom: 8px;">Academy Library</h1>
-        <p style="color: var(--lx-text-muted); font-size: 15px;">Full access to all 55 lessons, expert workflows, and certification tracks.</p>
+        <h1 class="section-heading-serif" style="margin-bottom: 8px;">Courses & Certifications</h1>
+        <p style="color: var(--lx-text-muted); font-size: 15px;">Select a course to begin the lecture track and unlock your final certification exam.</p>
       </div>
     </div>
 
     <div class="container" style="padding: 40px 0 80px;">
-      <div id="curriculum-module-tree" style="display: flex; flex-direction: column; gap: 20px;">
+      <div id="courses-catalog-container" class="cards-grid-3">
         <!-- Injected via JS -->
       </div>
     </div>
   </main>
 
   <!-- ======================================================================
-       VIEW: MASTERCLASS VIDEO STUDIO
+       VIEW 3: COURSE DETAIL & SYLLABUS
+       ====================================================================== -->
+  <main id="view-course-detail" class="app-view">
+    <div style="border-bottom: 1px solid var(--lx-border); padding: 32px 0;">
+      <div class="container">
+        <a class="nav-link" style="margin-bottom: 16px; display: inline-flex;" onclick="switchView('courses')">← Back to Courses</a>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--lx-teal); margin-bottom: 4px;" id="cd-badge">Certification Track</div>
+            <h1 class="section-heading-serif" style="font-size: 32px; margin-bottom: 8px;" id="cd-title">Course Title</h1>
+            <p style="color: var(--lx-text-body); max-width: 680px; font-size: 15px;" id="cd-desc">Course Description</p>
+          </div>
+          <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+            <button class="btn-harvey-primary" onclick="startCurrentCourse()">Start Lecture 1 →</button>
+            <span style="font-size: 12.5px; color: #6b7280;" id="cd-meta">12 Modules · 55 Lessons</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" style="padding: 40px 0 80px;">
+      <h3 class="section-heading-serif" style="font-size: 22px; margin-bottom: 20px;">Curriculum Syllabus</h3>
+      <div id="cd-syllabus-tree" style="display: flex; flex-direction: column; gap: 16px;">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       VIEW 4: LECTURE VIEW (VIDEO/CANVAS + TOUGH QUESTIONS AT END)
        ====================================================================== -->
   <main id="view-lesson" class="app-view">
     <div style="border-bottom: 1px solid var(--lx-border); padding: 18px 0;">
       <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
         <div style="display: flex; align-items: center; gap: 12px;">
-          <a class="nav-link" onclick="switchView('courses')">← Back to Library</a>
+          <a class="nav-link" onclick="switchView('courses')">← Back to Course</a>
           <span style="color: #9ca3af;">|</span>
-          <span style="font-weight: 700; color: #111827;">Lesson 1.2: Tokens, Context Windows, and Memory in Legal Practice</span>
+          <span style="font-weight: 700; color: #111827;" id="lecture-nav-title">Lesson 1.2: Tokens, Context Windows, and Memory in Legal Practice</span>
         </div>
-        <a class="btn-harvey-primary" style="padding: 6px 14px; font-size: 13px;" onclick="markLessonComplete()">Complete & Continue →</a>
+        <a class="btn-harvey-primary" style="padding: 6px 14px; font-size: 13px;" id="btn-next-lecture-top" onclick="proceedToNextStep()">Next Step →</a>
       </div>
     </div>
 
     <div class="container studio-wrapper">
       <div class="studio-layout-grid">
         
-        <!-- Left: Video Player & Tabs -->
+        <!-- Left: Video Player, Content, and Tough End-of-Lecture Quiz -->
         <div>
           <div class="video-frame-box">
             <canvas id="video-canvas" style="width: 100%; height: 100%; display: block;"></canvas>
@@ -232,20 +211,19 @@
 
           <!-- Studio Navigation Tabs -->
           <div class="tabs-nav-bar">
-            <span class="tab-nav-btn active" onclick="switchStudioTab('tab-reading', this)">Overview</span>
-            <span class="tab-nav-btn" onclick="switchStudioTab('tab-lab', this)">Interactive Prompt Lab</span>
+            <span class="tab-nav-btn active" onclick="switchStudioTab('tab-reading', this)">Lecture Notes</span>
+            <span class="tab-nav-btn" onclick="switchStudioTab('tab-lab', this)">Prompt & Token Sandbox</span>
             <span class="tab-nav-btn" onclick="switchStudioTab('tab-transcript', this)">Transcript</span>
-            <span class="tab-nav-btn" onclick="switchStudioTab('tab-quiz', this)">Knowledge Check</span>
           </div>
 
-          <!-- Tab: Overview -->
+          <!-- Tab: Lecture Notes -->
           <div id="tab-reading" class="tab-content-panel active">
-            <h2 style="font-family: var(--font-serif); font-size: 24px; color: #111827; margin-bottom: 12px;">Context Memory & Sub-Word Tokenization</h2>
+            <h2 style="font-family: var(--font-serif); font-size: 24px; color: #111827; margin-bottom: 12px;" id="lecture-content-title">Context Memory & Sub-Word Tokenization</h2>
             <p style="color: var(--lx-text-body); font-size: 15px; margin-bottom: 16px;">
               Commercial contracts, court dockets, and patent claims contain dense, Latinate legal terminology. When processed by language models, these specialized terms decompose into numerous sub-word tokens, causing context windows to fill rapidly.
             </p>
             <div style="background: var(--lx-bg-subtle); border-left: 3px solid var(--lx-primary); padding: 16px; border-radius: 4px; margin-bottom: 20px;">
-              <strong style="color: #111827;">Core Rule:</strong> Never rely on monolithic zero-shot prompts for agreements exceeding 30 pages. Always apply structured chunking or RAG grounding to prevent attention loss.
+              <strong style="color: #111827;">Practice Protocol:</strong> Never rely on monolithic zero-shot prompts for agreements exceeding 30 pages. Always apply structured chunking or RAG grounding to prevent attention loss.
             </div>
           </div>
 
@@ -282,51 +260,42 @@
             </div>
           </div>
 
-          <!-- Tab: Quiz -->
-          <div id="tab-quiz" class="tab-content-panel">
-            <div style="border: 1px solid var(--lx-border); border-radius: var(--radius-card); padding: 24px;">
-              <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 10px;">Formative Knowledge Check</h3>
-              <p style="margin-bottom: 16px; color: var(--lx-text-body);">What phenomenon causes language models to omit clauses located in the middle 40–60% of an unindexed 100-page brief?</p>
-              
-              <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px;">
-                <label style="display: flex; gap: 10px; padding: 10px 14px; border: 1px solid var(--lx-border); border-radius: 4px; cursor: pointer;">
-                  <input type="radio" name="lq_choice" value="0">
-                  <span>Context window buffer overflow error</span>
-                </label>
-                <label style="display: flex; gap: 10px; padding: 10px 14px; border: 1px solid var(--lx-border); border-radius: 4px; cursor: pointer;">
-                  <input type="radio" name="lq_choice" value="1">
-                  <span>Lost in the Middle (Attention Degradation)</span>
-                </label>
+          <!-- ================================================================
+               TOUGH QUESTIONS AT END OF LECTURE (MANDATORY TO PROCEED)
+               ================================================================ -->
+          <div class="lecture-quiz-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <div>
+                <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #dc2626; letter-spacing: 0.05em;">Lecture Checkpoint</span>
+                <h3 style="font-size: 18px; font-weight: 700; color: #111827;">End-of-Lecture Formative Assessment</h3>
               </div>
-              <button class="btn-harvey-primary" onclick="checkLessonQuiz()">Submit Answer</button>
-              <div id="lesson-quiz-feedback" style="margin-top: 12px;"></div>
+              <span style="font-size: 12px; color: #6b7280;">3 Tough Questions</span>
+            </div>
+
+            <div id="lecture-quiz-questions-list" style="display: flex; flex-direction: column; gap: 20px;">
+              <!-- Injected via JS -->
+            </div>
+
+            <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center;">
+              <button class="btn-harvey-primary" onclick="evaluateLectureQuiz()">Submit Answers & Validate Checkpoint</button>
+              <div id="lecture-quiz-overall-feedback" style="font-weight: 600; font-size: 14px;"></div>
             </div>
           </div>
 
         </div>
 
-        <!-- Right: Syllabus Sidebar -->
+        <!-- Right: Lecture Syllabus Progress -->
         <div style="border: 1px solid var(--lx-border); border-radius: var(--radius-card); padding: 20px; background: #ffffff;">
-          <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #6b7280; margin-bottom: 4px;">Certification Track</div>
-          <div style="font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 12px;">Level 1 Foundations</div>
+          <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #6b7280; margin-bottom: 4px;">Active Course</div>
+          <div style="font-size: 16px; font-weight: 700; color: #111827; margin-bottom: 14px;" id="sidebar-course-title">Level 1 Foundations</div>
           
-          <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13.5px;">
-            <div style="padding: 8px 10px; border-radius: 4px; background: var(--lx-bg-subtle); display: flex; justify-content: space-between; cursor: pointer;" onclick="openLesson('l1-1')">
-              <span>✓ 1.1 GenAI in Practice</span>
-              <span style="color: #9ca3af;">25m</span>
-            </div>
-            <div style="padding: 8px 10px; border-radius: 4px; background: #f0f7fa; border-left: 3px solid var(--lx-primary); font-weight: 700; color: var(--lx-primary); display: flex; justify-content: space-between; cursor: pointer;">
-              <span>▶ 1.2 Tokens & Context</span>
-              <span>30m</span>
-            </div>
-            <div style="padding: 8px 10px; border-radius: 4px; background: var(--lx-bg-subtle); display: flex; justify-content: space-between; cursor: pointer;" onclick="openLesson('l1-3')">
-              <span>○ 1.3 Probabilistic Reasoning</span>
-              <span style="color: #9ca3af;">40m</span>
-            </div>
-            <div style="padding: 8px 10px; border-radius: 4px; background: var(--lx-bg-subtle); display: flex; justify-content: space-between; cursor: pointer;" onclick="openLesson('l1-4')">
-              <span>○ 1.4 Legal Tool Taxonomy</span>
-              <span style="color: #9ca3af;">25m</span>
-            </div>
+          <div id="sidebar-lessons-list" style="display: flex; flex-direction: column; gap: 8px; font-size: 13.5px;">
+            <!-- Injected via JS -->
+          </div>
+
+          <div style="margin-top: 24px; border-top: 1px solid var(--lx-border); padding-top: 16px;">
+            <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #6b7280; margin-bottom: 6px;">Course Milestone</div>
+            <button class="btn-harvey-secondary" style="width: 100%; font-size: 13px;" onclick="startFinalExam()">Take Final Exam 🔒</button>
           </div>
         </div>
 
@@ -335,12 +304,12 @@
   </main>
 
   <!-- ======================================================================
-       VIEW: CERTIFICATION EXAMINATION
+       VIEW 5: FINAL TOUGH CERTIFICATION EXAMINATION
        ====================================================================== -->
   <main id="view-exam" class="app-view">
     <div style="border-bottom: 1px solid var(--lx-border); padding: 18px 0;">
       <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-weight: 700; font-size: 16px; color: #111827;">Level 1 Certification Examination</span>
+        <span style="font-weight: 700; font-size: 16px; color: #111827;">Final High-Stakes Certification Examination</span>
         <div style="display: flex; align-items: center; gap: 16px;">
           <span style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; background: var(--lx-bg-subtle); padding: 4px 10px; border-radius: 4px; border: 1px solid var(--lx-border);" id="exam-hud-timer">119:45</span>
           <button class="btn-harvey-primary" onclick="submitExam()">Submit Assessment</button>
@@ -348,7 +317,7 @@
       </div>
     </div>
 
-    <div class="container exam-card-wrapper">
+    <div class="container exam-card-wrapper" id="exam-question-viewport">
       <div class="exam-box">
         <div style="display: flex; justify-content: space-between; margin-bottom: 16px;">
           <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--lx-teal);" id="exam-q-section">Section A: Knowledge</span>
@@ -369,75 +338,62 @@
         </div>
       </div>
     </div>
-  </main>
 
-  <!-- ======================================================================
-       VIEW: VERIFICATION PORTAL
-       ====================================================================== -->
-  <main id="view-verify" class="app-view">
-    <div style="border-bottom: 1px solid var(--lx-border); padding: 48px 0 32px; text-align: center;">
-      <div class="container-narrow">
-        <h1 class="section-heading-serif" style="margin-bottom: 8px;">Credential Verification</h1>
-        <p style="color: var(--lx-text-muted); font-size: 15px; margin-bottom: 20px;">Official verification for Lawxy Certified legal professionals.</p>
-
-        <div style="display: flex; gap: 8px; max-width: 480px; margin: 0 auto;">
-          <input type="text" id="verify-search-id" class="search-input" style="border: 1px solid var(--lx-border); padding: 10px 14px; border-radius: 6px; font-family: var(--font-mono);" placeholder="Enter ID (e.g. LXY-AINL-2026-000184)">
-          <button class="btn-harvey-primary" onclick="lookupCredential(document.getElementById('verify-search-id').value)">Verify</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="container-narrow" style="padding: 40px 0 80px;">
-      <div id="verify-results-container">
-        <!-- Injected via JS -->
-      </div>
+    <!-- Exam Result View (Injected on Submit) -->
+    <div class="container exam-card-wrapper" id="exam-result-viewport" style="display: none;">
+      <div id="exam-result-content"></div>
     </div>
   </main>
 
   <!-- ======================================================================
-       VIEW: CANDIDATE DASHBOARD
+       VIEW 6: YOUR CERTIFICATIONS (STUDENT LOGIN & CREDENTIAL PORTAL)
        ====================================================================== -->
-  <main id="view-dashboard" class="app-view">
-    <div style="border-bottom: 1px solid var(--lx-border); padding: 32px 0;">
-      <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+  <main id="view-certifications" class="app-view">
+    <div style="border-bottom: 1px solid var(--lx-border); padding: 36px 0;">
+      <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
         <div>
-          <h1 class="section-heading-serif" style="font-size: 28px; margin-bottom: 4px;">Sarah Chen, Esq.</h1>
-          <p style="color: var(--lx-text-muted); font-size: 14px;">Chen & Morrison LLP · AI-Native Lawyer Candidate</p>
+          <h1 class="section-heading-serif" style="font-size: 32px; margin-bottom: 4px;">Your Certifications</h1>
+          <p style="color: var(--lx-text-muted); font-size: 14.5px;">View your official credentials, download certificates, or continue in-progress tracks.</p>
         </div>
-        <button class="btn-harvey-primary" onclick="switchView('exam')">Launch Exam →</button>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="font-size: 13.5px; text-align: right;">
+            <div style="font-weight: 700; color: #111827;" id="auth-user-name">Sarah Chen, Esq.</div>
+            <div style="color: #6b7280; font-size: 12px;">Chen & Morrison LLP</div>
+          </div>
+          <button class="btn-harvey-secondary" style="font-size: 12.5px; padding: 6px 12px;" onclick="toggleUserAuth()">Switch User</button>
+        </div>
       </div>
     </div>
 
     <div class="container" style="padding: 40px 0 80px;">
-      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 32px; margin-bottom: 40px;">
-        <div style="border: 1px solid var(--lx-border); border-radius: var(--radius-card); padding: 28px;">
-          <h3 style="font-size: 17px; font-weight: 700; color: #111827; margin-bottom: 12px;">Curriculum Progress</h3>
-          <div style="width: 100%; height: 6px; background: var(--lx-border); border-radius: 999px; overflow: hidden; margin-bottom: 12px;">
-            <div style="width: 62%; height: 100%; background: var(--lx-primary);"></div>
-          </div>
-          <div style="display: flex; justify-content: space-between; font-size: 13px; color: var(--lx-text-muted);">
-            <span>34 of 55 Lessons Completed</span>
-            <span style="font-weight: 700; color: #111827;">62%</span>
-          </div>
-        </div>
-
-        <div style="border: 1px solid var(--lx-border); border-radius: var(--radius-card); padding: 28px; background: var(--lx-bg-subtle);">
-          <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #059669; margin-bottom: 4px;">Exam Status</div>
-          <h3 style="font-size: 17px; font-weight: 700; color: #111827; margin-bottom: 6px;">Ready for Evaluation</h3>
-          <p style="font-size: 13.5px; color: var(--lx-text-body); margin-bottom: 16px;">Pass the 120-minute proctored assessment to earn your official credential.</p>
-          <a class="btn-harvey-primary" style="width: 100%; font-size: 13px;" onclick="switchView('exam')">Take Exam</a>
-        </div>
-      </div>
-
-      <h3 class="section-heading-serif" style="font-size: 24px; margin-bottom: 20px;">Competency Matrix</h3>
-      <div id="dashboard-skills-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+      
+      <!-- Earned Certificates Section -->
+      <h2 class="section-heading-serif" style="font-size: 24px; margin-bottom: 20px;">Earned Certificates</h2>
+      <div id="earned-certificates-container" style="margin-bottom: 48px;">
         <!-- Injected via JS -->
       </div>
+
+      <!-- In Progress Course Tracks -->
+      <h2 class="section-heading-serif" style="font-size: 24px; margin-bottom: 20px;">Courses in Progress</h2>
+      <div id="user-inprogress-courses" class="cards-grid-3" style="margin-bottom: 48px;">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Public Verification Lookup Box -->
+      <div style="border: 1px solid var(--lx-border); border-radius: var(--radius-card); padding: 32px; background: var(--lx-bg-subtle);">
+        <h3 style="font-size: 17px; font-weight: 700; color: #111827; margin-bottom: 6px;">Verify a Certificate Number</h3>
+        <p style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">Employers, universities, and clients can look up any official Lawxy Academy credential ID here.</p>
+        <div style="display: flex; gap: 8px; max-width: 480px;">
+          <input type="text" id="cert-search-input" class="search-input" style="border: 1px solid var(--lx-border); padding: 10px 14px; border-radius: 6px; font-family: var(--font-mono);" placeholder="Enter ID (e.g. LXY-AINL-2026-000184)">
+          <button class="btn-harvey-primary" onclick="lookupCredential(document.getElementById('cert-search-input').value)">Verify ID</button>
+        </div>
+      </div>
+
     </div>
   </main>
 
   <!-- ======================================================================
-       VIEW: ADMIN COMMAND CENTER
+       VIEW 7: ADMIN CENTER
        ====================================================================== -->
   <main id="view-admin" class="app-view">
     <div style="border-bottom: 1px solid var(--lx-border); padding: 32px 0;">
