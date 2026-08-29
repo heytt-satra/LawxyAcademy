@@ -541,8 +541,67 @@ function openModule(moduleId) {
     `;
   }).join('');
 
+  // Video Player / Canvas Handler
+  const videoEl = document.getElementById('lecture-video-player');
+  const canvasEl = document.getElementById('video-canvas');
+  const customHud = document.getElementById('custom-video-hud');
+
+  // Mapping of module IDs to video filenames
+  const VIDEO_MAPPING = {
+    'c1-m1': '/videos/Ask Lawxy.mp4',
+    'c1-m2': '/videos/Word Add IN.mp4',
+    'c1-m3': '/videos/Ask Lawxy.mp4',
+    'c1-m4': '/videos/General research agent.mp4',
+    'c1-m5': '/videos/Contract Drafting.mp4',
+    'c1-m6': '/videos/Intelligent DMS.mp4',
+    'c1-m7': '/videos/Research & Assignment Quality.mp4',
+    'c1-m9': '/videos/Word Add IN.mp4',
+    'c2-m1': '/videos/General research agent.mp4',
+    'c2-m2': '/videos/Case Analyser.mp4',
+    'c2-m3': '/videos/Moot-court-end-to-end (2).mp4',
+    'c2-m4': '/videos/Past Precedence Research .mp4',
+    'c2-m5': '/videos/Redling and Review.mp4',
+    'c2-m6': '/videos/Dino Room.mp4',
+    'c2-m7': '/videos/Contract Drafting (2).mp4',
+    'c2-m8': '/videos/Translex.mp4',
+    'c2-m9': '/videos/Intelligent DMS.mp4',
+    'c2-m10': '/videos/Research & Assignment Quality.mp4',
+    'c2-m12': '/videos/Moot-court-end-to-end (2).mp4',
+    'c3-m1': '/videos/Intelligent DMS.mp4',
+    'c3-m2': '/videos/Intelligent DMS.mp4',
+    'c3-m3': '/videos/Redling and Review.mp4',
+    'c3-m4': '/videos/Redling and Review.mp4',
+    'c3-m5': '/videos/Redling and Review.mp4',
+    'c3-m6': '/videos/Contract Drafting.mp4',
+    'c3-m7': '/videos/Intelligent DMS.mp4',
+    'c3-m8': '/videos/Redling and Review.mp4',
+    'c3-m9': '/videos/Word Add IN.mp4',
+    'c3-m10': '/videos/Contract Drafting (2).mp4',
+    'c3-m11': '/videos/Compare Lens.mp4',
+    'c3-m12': '/videos/Dino Room.mp4',
+    'c3-m13': '/videos/Dino Room.mp4',
+    'c3-m14': '/videos/Word Add IN.mp4'
+  };
+
+  const targetVideo = VIDEO_MAPPING[mod.id];
+
+  if (targetVideo && videoEl) {
+    // Check if video file exists by testing fetch or loading
+    videoEl.src = targetVideo;
+    videoEl.style.display = 'block';
+    if (canvasEl) canvasEl.style.display = 'none';
+    if (customHud) customHud.style.display = 'none';
+  } else {
+    if (videoEl) {
+      videoEl.pause();
+      videoEl.style.display = 'none';
+    }
+    if (canvasEl) canvasEl.style.display = 'block';
+    if (customHud) customHud.style.display = 'flex';
+    setupSuperDemoCanvas(mod);
+  }
+
   renderSuperDemoNotes(mod);
-  setupSuperDemoCanvas(mod);
   renderModuleQuiz(mod);
 }
 

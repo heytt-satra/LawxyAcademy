@@ -660,6 +660,43 @@ const server = http.createServer(async (req, res) => {
       case '.jpg': contentType = 'image/jpeg'; break;
       case '.svg': contentType = 'image/svg+xml'; break;
       case '.woff2': contentType = 'font/woff2'; break;
+      case '.mp4': contentType = 'video/mp4'; break;
+      case '.webm': contentType = 'video/webm'; break;
+    }
+
+    // Video Streaming with HTTP 206 Range Request Support
+    if (extname === '.mp4' || extname === '.webm') {
+      const stat = fs.statSync(filePath);
+      const fileSize = stat.size;
+      const range = req.headers.range;
+
+      if (range) {
+        const parts = range.replace(/bytes=/, "").split("-");
+        const start = parseInt(parts[0], 10);
+        const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+        const chunksize = (end - start) + 1;
+        const file = fs.createReadStream(filePath, { start, end });
+        const head = {
+          'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+          'Accept-Ranges': 'bytes',
+          'Content-Length': chunksize,
+          'Content-Type': contentType,
+          'Access-Control-Allow-Origin': '*'
+        };
+        res.writeHead(206, head);
+        file.pipe(res);
+        return;
+      } else {
+        const head = {
+          'Content-Length': fileSize,
+          'Content-Type': contentType,
+          'Accept-Ranges': 'bytes',
+          'Access-Control-Allow-Origin': '*'
+        };
+        res.writeHead(200, head);
+        fs.createReadStream(filePath).pipe(res);
+        return;
+      }
     }
 
     fs.readFile(filePath, (err, content) => {
@@ -667,7 +704,7 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(500);
         res.end(`Server Error: ${err.code}`);
       } else {
-        res.writeHead(200, { 'Content-Type': contentType });
+        res.writeHead(200, { 'Content-Type': contentType, 'Access-Control-Allow-Origin': '*' });
         res.end(content, 'utf-8');
       }
     });
