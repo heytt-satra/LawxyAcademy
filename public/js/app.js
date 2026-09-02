@@ -546,51 +546,59 @@ function openModule(moduleId) {
   const canvasEl = document.getElementById('video-canvas');
   const customHud = document.getElementById('custom-video-hud');
 
-  // Mapping of module IDs to video filenames
+  // Mapping of module IDs to sanitized video filenames
   const VIDEO_MAPPING = {
-    'c1-m1': '/videos/Ask Lawxy.mp4',
-    'c1-m2': '/videos/Word Add IN.mp4',
-    'c1-m3': '/videos/Ask Lawxy.mp4',
-    'c1-m4': '/videos/General research agent.mp4',
-    'c1-m5': '/videos/Contract Drafting.mp4',
-    'c1-m6': '/videos/Intelligent DMS.mp4',
-    'c1-m7': '/videos/Research & Assignment Quality.mp4',
-    'c1-m9': '/videos/Word Add IN.mp4',
-    'c2-m1': '/videos/General research agent.mp4',
-    'c2-m2': '/videos/Case Analyser.mp4',
-    'c2-m3': '/videos/Moot-court-end-to-end (2).mp4',
-    'c2-m4': '/videos/Past Precedence Research .mp4',
-    'c2-m5': '/videos/Redling and Review.mp4',
-    'c2-m6': '/videos/Dino Room.mp4',
-    'c2-m7': '/videos/Contract Drafting (2).mp4',
-    'c2-m8': '/videos/Translex.mp4',
-    'c2-m9': '/videos/Intelligent DMS.mp4',
-    'c2-m10': '/videos/Research & Assignment Quality.mp4',
-    'c2-m12': '/videos/Moot-court-end-to-end (2).mp4',
-    'c3-m1': '/videos/Intelligent DMS.mp4',
-    'c3-m2': '/videos/Intelligent DMS.mp4',
-    'c3-m3': '/videos/Redling and Review.mp4',
-    'c3-m4': '/videos/Redling and Review.mp4',
-    'c3-m5': '/videos/Redling and Review.mp4',
-    'c3-m6': '/videos/Contract Drafting.mp4',
-    'c3-m7': '/videos/Intelligent DMS.mp4',
-    'c3-m8': '/videos/Redling and Review.mp4',
-    'c3-m9': '/videos/Word Add IN.mp4',
-    'c3-m10': '/videos/Contract Drafting (2).mp4',
-    'c3-m11': '/videos/Compare Lens.mp4',
-    'c3-m12': '/videos/Dino Room.mp4',
-    'c3-m13': '/videos/Dino Room.mp4',
-    'c3-m14': '/videos/Word Add IN.mp4'
+    'c1-m1': '/videos/ask-lawxy.mp4',
+    'c1-m2': '/videos/word-add-in.mp4',
+    'c1-m3': '/videos/ask-lawxy.mp4',
+    'c1-m4': '/videos/general-research-agent.mp4',
+    'c1-m5': '/videos/contract-drafting.mp4',
+    'c1-m6': '/videos/intelligent-dms.mp4',
+    'c1-m7': '/videos/research-assignment-quality.mp4',
+    'c1-m9': '/videos/word-add-in.mp4',
+    'c2-m1': '/videos/general-research-agent.mp4',
+    'c2-m2': '/videos/case-analyser.mp4',
+    'c2-m3': '/videos/moot-court-end-to-end-2.mp4',
+    'c2-m4': '/videos/past-precedence-research.mp4',
+    'c2-m5': '/videos/redlining-and-review.mp4',
+    'c2-m6': '/videos/dino-room.mp4',
+    'c2-m7': '/videos/contract-drafting-2.mp4',
+    'c2-m8': '/videos/translex-clean.mp4',
+    'c2-m9': '/videos/intelligent-dms.mp4',
+    'c2-m10': '/videos/research-assignment-quality.mp4',
+    'c2-m12': '/videos/moot-court-end-to-end-2.mp4',
+    'c3-m1': '/videos/intelligent-dms.mp4',
+    'c3-m2': '/videos/intelligent-dms.mp4',
+    'c3-m3': '/videos/redlining-and-review.mp4',
+    'c3-m4': '/videos/redlining-and-review.mp4',
+    'c3-m5': '/videos/redlining-and-review.mp4',
+    'c3-m6': '/videos/contract-drafting.mp4',
+    'c3-m7': '/videos/intelligent-dms.mp4',
+    'c3-m8': '/videos/redlining-and-review.mp4',
+    'c3-m9': '/videos/word-add-in.mp4',
+    'c3-m10': '/videos/contract-drafting-2.mp4',
+    'c3-m11': '/videos/compare-lens.mp4',
+    'c3-m12': '/videos/dino-room.mp4',
+    'c3-m13': '/videos/dino-room.mp4',
+    'c3-m14': '/videos/word-add-in.mp4'
   };
 
   const targetVideo = VIDEO_MAPPING[mod.id];
 
   if (targetVideo && videoEl) {
-    // Check if video file exists by testing fetch or loading
     videoEl.src = targetVideo;
     videoEl.style.display = 'block';
     if (canvasEl) canvasEl.style.display = 'none';
     if (customHud) customHud.style.display = 'none';
+
+    // Hook HTML5 video events
+    videoEl.onplay = () => { STATE.video.isPlaying = true; };
+    videoEl.onpause = () => { STATE.video.isPlaying = false; };
+    videoEl.onended = () => {
+      STATE.video.isPlaying = false;
+      const qCard = document.getElementById('lecture-quiz-questions-list');
+      if (qCard) qCard.scrollIntoView({ behavior: 'smooth' });
+    };
   } else {
     if (videoEl) {
       videoEl.pause();
@@ -602,7 +610,123 @@ function openModule(moduleId) {
   }
 
   renderSuperDemoNotes(mod);
+  renderInteractiveSandbox(mod);
   renderModuleQuiz(mod);
+}
+
+function renderInteractiveSandbox(mod) {
+  const labContainer = document.getElementById('tab-lab');
+  if (!labContainer) return;
+
+  const certId = STATE.currentCertId;
+
+  if (certId === 'cert-1') {
+    // Cert 1: Tokenizer & Prompt Architecture Sandbox
+    labContainer.innerHTML = `
+      <div style="border: 1px solid var(--lx-border); border-radius: var(--radius-card); padding: 24px; background: #ffffff;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div>
+            <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--lx-teal);">Cert 1 Live Lab</span>
+            <h3 style="font-size: 16px; font-weight: 700; color: #111827;">Legal Tokenizer & Sub-Word Inspector</h3>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="sign-in-btn" style="border: 1px solid var(--lx-border); padding: 4px 10px; border-radius: 4px;" onclick="loadPresetClause('indemnity')">Indemnity</button>
+            <button class="sign-in-btn" style="border: 1px solid var(--lx-border); padding: 4px 10px; border-radius: 4px;" onclick="loadPresetClause('precedent')">Precedent</button>
+          </div>
+        </div>
+
+        <textarea id="token-input" style="width: 100%; min-height: 85px; padding: 12px; border: 1px solid var(--lx-border); border-radius: 6px; font-family: var(--font-mono); font-size: 13px; margin-bottom: 14px;" oninput="runTokenAnalysis()">The Supplier shall indemnify, defend, and hold harmless the Customer and its directors, officers, employees, and agents from and against all third-party claims, liabilities, and expenses arising out of intellectual property infringement or gross negligence.</textarea>
+
+        <div id="token-chips-display" style="padding: 14px; background: var(--lx-bg-subtle); border-radius: 6px; border: 1px solid var(--lx-border); margin-bottom: 16px; line-height: 1.8;"></div>
+
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; font-size: 13px;">
+          <div><strong>Words:</strong> <span id="stat-word-count">33</span></div>
+          <div><strong>Tokens:</strong> <span id="stat-token-count" style="color: var(--lx-teal);">47</span></div>
+          <div><strong>Ratio:</strong> <span id="stat-multiplier">1.42x</span></div>
+          <div><strong>Risk:</strong> <span id="stat-risk-level" style="color: #059669;">Low</span></div>
+        </div>
+      </div>
+    `;
+    runTokenAnalysis();
+  } else if (certId === 'cert-2') {
+    // Cert 2: Case Strategy & Adversarial Red-Team Simulator
+    labContainer.innerHTML = `
+      <div style="border: 1px solid var(--lx-border); border-radius: var(--radius-card); padding: 24px; background: #ffffff;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div>
+            <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--lx-primary);">Cert 2 Substantive Lab</span>
+            <h3 style="font-size: 16px; font-weight: 700; color: #111827;">Adversarial Red-Team & Case Strategy Simulator</h3>
+          </div>
+          <button class="btn-harvey-primary" style="padding: 6px 12px; font-size: 12.5px;" onclick="runAdversarialSimulation()">Simulate Opposing Counsel ⚔️</button>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <label style="font-size: 12.5px; font-weight: 700; color: #111827; display: block; margin-bottom: 6px;">Select Litigation Scenario:</label>
+          <select id="case-sim-select" style="width: 100%; padding: 10px; border: 1px solid var(--lx-border); border-radius: 6px; font-size: 13.5px;" onchange="loadCaseSimulation()">
+            <option value="trade-secret">Apex Tech vs. Meridian: Preliminary Injunction on Trade Secrets</option>
+            <option value="breach-warranty">Global Pharma v. BioSupply: Uncapped Consequential Damages</option>
+            <option value="circuit-split">Software Copyrightability & Non-Precedential Bench Memos</option>
+          </select>
+        </div>
+
+        <div id="sim-output-box" style="padding: 16px; background: var(--lx-bg-subtle); border-radius: 6px; border: 1px solid var(--lx-border); font-size: 13.5px; line-height: 1.6;">
+          <strong style="color: var(--lx-primary);">Primary Claim:</strong> Plaintiff alleges departing VP misappropriated customer lists.<br>
+          <strong style="color: #dc2626;">Opposing Red-Team Vulnerability:</strong> The customer list contains publicly identifiable business directory info; failure to prove reasonable secrecy efforts under Defend Trade Secrets Act (DTSA).
+        </div>
+      </div>
+    `;
+  } else {
+    // Cert 3: Contract Playbook & Redline Auditor
+    labContainer.innerHTML = `
+      <div style="border: 1px solid var(--lx-border); border-radius: var(--radius-card); padding: 24px; background: #ffffff;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div>
+            <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: var(--lx-teal);">Cert 3 Specialist Lab</span>
+            <h3 style="font-size: 16px; font-weight: 700; color: #111827;">Playbook Redline & Risk Auditor</h3>
+          </div>
+          <button class="btn-harvey-primary" style="padding: 6px 12px; font-size: 12.5px;" onclick="runPlaybookRedline()">Apply Enterprise Playbook ✍️</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 14px;">
+          <div>
+            <label style="font-size: 12px; font-weight: 700; color: #111827; display: block; margin-bottom: 4px;">Original Vendor Clause (High Risk):</label>
+            <textarea id="orig-clause" style="width: 100%; height: 100px; padding: 10px; border: 1px solid var(--lx-border); border-radius: 6px; font-size: 12.5px; font-family: var(--font-mono);">Supplier liability is strictly capped at $5,000. Customer agrees to indemnify Supplier for all third-party claims including Supplier negligence.</textarea>
+          </div>
+          <div>
+            <label style="font-size: 12px; font-weight: 700; color: #059669; display: block; margin-bottom: 4px;">Enterprise Redline (Playbook Standard):</label>
+            <div id="redline-output" style="width: 100%; height: 100px; padding: 10px; border: 1px solid #a7f3d0; background: #ecfdf5; border-radius: 6px; font-size: 12.5px; font-family: var(--font-mono); overflow-y: auto;">
+              <span style="text-decoration: line-through; color: #dc2626;">$5,000</span> <strong style="color: #059669;">[fees paid in 12 months]</strong>. <span style="text-decoration: line-through; color: #dc2626;">Customer agrees to indemnify Supplier for Supplier negligence</span>. <strong style="color: #059669;">Each party shall indemnify the other for its own gross negligence.</strong>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size: 12.5px; color: #6b7280;">
+          <strong>Playbook Rule Enforced:</strong> Strike unilateral negligence indemnity; convert cap to 12-month trailing fees.
+        </div>
+      </div>
+    `;
+  }
+}
+
+function runAdversarialSimulation() {
+  const box = document.getElementById('sim-output-box');
+  if (box) {
+    box.innerHTML = `
+      <div style="color: #059669; font-weight: 700; margin-bottom: 6px;">✓ Opposing Counsel Simulation Complete (Dual-Agent Debate)</div>
+      <div style="margin-bottom: 8px;"><strong>Opposing Argument 1:</strong> Motion to dismiss based on lack of extraterritorial jurisdiction under 2nd Circuit precedent.</div>
+      <div style="margin-bottom: 8px;"><strong>Recommended Counter-Affidavit:</strong> Introduce Exhibit 4 proving servers were physically located in the Southern District of New York.</div>
+      <div style="color: #dc2626;"><strong>Risk Assessment:</strong> 85% probability of surviving motion to dismiss with proposed supplemental affidavit.</div>
+    `;
+  }
+}
+
+function runPlaybookRedline() {
+  const out = document.getElementById('redline-output');
+  if (out) {
+    out.innerHTML = `
+      <span style="background: #fee2e2; color: #dc2626; text-decoration: line-through;">Supplier liability shall under no circumstances exceed $5,000</span> <span style="background: #d1fae5; color: #065f46; font-weight: 700;">Supplier aggregate liability shall be capped at twelve (12) months fees paid</span>. <span style="background: #fee2e2; color: #dc2626; text-decoration: line-through;">Customer waives all claims for vendor fault</span> <span style="background: #d1fae5; color: #065f46; font-weight: 700;">Mutual indemnification for gross negligence and IP infringement shall apply.</span>
+    `;
+  }
 }
 
 function renderSuperDemoNotes(mod) {

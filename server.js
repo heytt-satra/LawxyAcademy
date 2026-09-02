@@ -643,7 +643,15 @@ const server = http.createServer(async (req, res) => {
     // STATIC FILE SERVING (Single Page Application fallback)
     // ------------------------------------------------------------------------
 
-    let filePath = path.join(PUBLIC_DIR, pathname === '/' ? 'index.html' : pathname);
+    // Decode URL pathname (handles spaces, parentheses, ampersands, etc.)
+    let decodedPath = '/';
+    try {
+      decodedPath = decodeURIComponent(pathname);
+    } catch (e) {
+      decodedPath = pathname;
+    }
+
+    let filePath = path.join(PUBLIC_DIR, decodedPath === '/' ? 'index.html' : decodedPath);
 
     // If file does not exist, fallback to index.html for SPA client-side routing
     if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
