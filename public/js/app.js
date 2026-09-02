@@ -586,6 +586,10 @@ function openModule(moduleId) {
   const targetVideo = VIDEO_MAPPING[mod.id];
 
   if (targetVideo && videoEl) {
+    videoEl.pause();
+    videoEl.removeAttribute('src');
+    videoEl.load();
+
     videoEl.src = targetVideo;
     videoEl.style.display = 'block';
     if (canvasEl) canvasEl.style.display = 'none';
@@ -599,6 +603,21 @@ function openModule(moduleId) {
       const qCard = document.getElementById('lecture-quiz-questions-list');
       if (qCard) qCard.scrollIntoView({ behavior: 'smooth' });
     };
+
+    // If video file cannot be loaded (e.g. 404 or unsupported codec), fallback to SuperDemo Canvas visualizer
+    videoEl.onerror = (e) => {
+      console.warn(`[Lawxy] Video ${targetVideo} not available or failed to load. Falling back to SuperDemo Canvas Masterclass.`);
+      videoEl.style.display = 'none';
+      if (canvasEl) canvasEl.style.display = 'block';
+      if (customHud) customHud.style.display = 'flex';
+      setupSuperDemoCanvas(mod);
+    };
+
+    try {
+      videoEl.load();
+    } catch (err) {
+      console.error('[Lawxy] Error triggering video load:', err);
+    }
   } else {
     if (videoEl) {
       videoEl.pause();
