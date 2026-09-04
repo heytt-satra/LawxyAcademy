@@ -385,8 +385,8 @@ function generateCertificateSvg(cred) {
   const score = cred.scorePercentage || 88;
 
   const logoTag = LAWXY_LOGO_BASE64 ? 
-    `<image href="${LAWXY_LOGO_BASE64}" x="390" y="90" width="320" height="76" preserveAspectRatio="xMidYMid meet" />` :
-    `<text class="serif-name" x="550" y="145" font-size="44" font-weight="900" fill="#07232f" text-anchor="middle" letter-spacing="-0.02em">Lawxy</text>`;
+    `<image href="${LAWXY_LOGO_BASE64}" x="385" y="85" width="330" height="78" preserveAspectRatio="xMidYMid meet" />` :
+    `<text class="serif-name" x="550" y="145" font-size="44" font-weight="900" fill="#02212e" text-anchor="middle" letter-spacing="-0.02em">Lawxy</text>`;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" width="100%" height="100%">
   <defs>
@@ -398,75 +398,65 @@ function generateCertificateSvg(cred) {
       .mono-code { font-family: 'Fragment Mono', monospace; }
     </style>
     
-    <!-- Linear & Radial Gold Gradients -->
-    <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#dfba50"/>
-      <stop offset="25%" stop-color="#c59b27"/>
-      <stop offset="50%" stop-color="#fdf3a9"/>
-      <stop offset="75%" stop-color="#c59b27"/>
-      <stop offset="100%" stop-color="#8e6e18"/>
+    <!-- Lawxy Brand Gradients (Deep Navy to Teal) -->
+    <linearGradient id="lawxyBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#02212e"/>
+      <stop offset="50%" stop-color="#287796"/>
+      <stop offset="100%" stop-color="#02212e"/>
     </linearGradient>
 
-    <radialGradient id="goldSeal" cx="40%" cy="40%" r="60%">
-      <stop offset="0%" stop-color="#fff9d2"/>
-      <stop offset="25%" stop-color="#eec752"/>
-      <stop offset="60%" stop-color="#c59b27"/>
-      <stop offset="90%" stop-color="#9a7413"/>
-      <stop offset="100%" stop-color="#644903"/>
-    </radialGradient>
+    <linearGradient id="sealTeal" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#287796"/>
+      <stop offset="100%" stop-color="#02212e"/>
+    </linearGradient>
 
-    <filter id="sealShadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="rgba(15, 23, 42, 0.22)"/>
+    <filter id="badgeShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="rgba(2, 33, 46, 0.15)"/>
     </filter>
 
-    <pattern id="microGuilloche" width="24" height="24" patternUnits="userSpaceOnUse">
-      <path d="M 0 12 Q 6 0 12 12 T 24 12" fill="none" stroke="#e2e8f0" stroke-width="0.75" opacity="0.6"/>
-      <path d="M 12 0 Q 0 6 12 12 T 12 24" fill="none" stroke="#e2e8f0" stroke-width="0.75" opacity="0.6"/>
+    <pattern id="microDots" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="1" fill="#cbd5e1" opacity="0.45"/>
     </pattern>
   </defs>
 
-  <!-- Background Canvas with Ivory Finish -->
-  <rect width="1100" height="780" fill="#faf9f5"/>
-  <rect x="24" y="24" width="1052" height="732" fill="url(#microGuilloche)"/>
+  <!-- Background Canvas with Clean Lawxy Tint -->
+  <rect width="1100" height="780" fill="#f8fafb"/>
+  <rect x="24" y="24" width="1052" height="732" fill="url(#microDots)"/>
 
-  <!-- Outer Security Frame -->
-  <rect x="28" y="28" width="1044" height="724" fill="none" stroke="#0f172a" stroke-width="2"/>
-  <rect x="36" y="36" width="1028" height="708" fill="none" stroke="url(#goldBorder)" stroke-width="4"/>
-  <rect x="46" y="46" width="1008" height="688" fill="none" stroke="#e2e8f0" stroke-width="1.2"/>
-  <rect x="52" y="52" width="996" height="676" fill="#ffffff" stroke="none"/>
+  <!-- Outer Brand Frame (Deep Navy & Lawxy Teal) -->
+  <rect x="28" y="28" width="1044" height="724" fill="none" stroke="#02212e" stroke-width="2"/>
+  <rect x="36" y="36" width="1028" height="708" fill="none" stroke="url(#lawxyBorder)" stroke-width="3"/>
+  <rect x="44" y="44" width="1012" height="692" fill="none" stroke="#e2e8f0" stroke-width="1.2"/>
+  <rect x="50" y="50" width="1000" height="680" fill="#ffffff" stroke="none"/>
 
-  <!-- Corner Ornamental Flourishes -->
+  <!-- Corner Precision Accents (Teal / Navy) -->
   <!-- Top Left -->
-  <g transform="translate(64, 64)">
-    <path d="M 0 0 L 32 0 M 0 0 L 0 32 M 8 8 L 24 8 M 8 8 L 8 24" stroke="url(#goldBorder)" stroke-width="2" fill="none"/>
-    <circle cx="16" cy="16" r="3" fill="#c59b27"/>
+  <g transform="translate(60, 60)">
+    <path d="M 0 0 L 28 0 M 0 0 L 0 28 M 6 6 L 20 6 M 6 6 L 6 20" stroke="#287796" stroke-width="2" fill="none"/>
   </g>
   <!-- Top Right -->
-  <g transform="translate(1036, 64) scale(-1, 1)">
-    <path d="M 0 0 L 32 0 M 0 0 L 0 32 M 8 8 L 24 8 M 8 8 L 8 24" stroke="url(#goldBorder)" stroke-width="2" fill="none"/>
-    <circle cx="16" cy="16" r="3" fill="#c59b27"/>
+  <g transform="translate(1040, 60) scale(-1, 1)">
+    <path d="M 0 0 L 28 0 M 0 0 L 0 28 M 6 6 L 20 6 M 6 6 L 6 20" stroke="#287796" stroke-width="2" fill="none"/>
   </g>
   <!-- Bottom Left -->
-  <g transform="translate(64, 716) scale(1, -1)">
-    <path d="M 0 0 L 32 0 M 0 0 L 0 32 M 8 8 L 24 8 M 8 8 L 8 24" stroke="url(#goldBorder)" stroke-width="2" fill="none"/>
-    <circle cx="16" cy="16" r="3" fill="#c59b27"/>
+  <g transform="translate(60, 720) scale(1, -1)">
+    <path d="M 0 0 L 28 0 M 0 0 L 0 28 M 6 6 L 20 6 M 6 6 L 6 20" stroke="#287796" stroke-width="2" fill="none"/>
   </g>
   <!-- Bottom Right -->
-  <g transform="translate(1036, 716) scale(-1, -1)">
-    <path d="M 0 0 L 32 0 M 0 0 L 0 32 M 8 8 L 24 8 M 8 8 L 8 24" stroke="url(#goldBorder)" stroke-width="2" fill="none"/>
-    <circle cx="16" cy="16" r="3" fill="#c59b27"/>
+  <g transform="translate(1040, 720) scale(-1, -1)">
+    <path d="M 0 0 L 28 0 M 0 0 L 0 28 M 6 6 L 20 6 M 6 6 L 6 20" stroke="#287796" stroke-width="2" fill="none"/>
   </g>
 
   <!-- Official Lawxy Logo Header -->
   ${logoTag}
 
-  <g transform="translate(550, 190)" text-anchor="middle">
-    <text class="title-cinzel" x="0" y="0" font-size="12" font-weight="700" fill="#07232f" letter-spacing="0.24em">ACADEMY OF LEGAL ARTIFICIAL INTELLIGENCE</text>
-    <line x1="-160" y1="12" x2="160" y2="12" stroke="url(#goldBorder)" stroke-width="1.5"/>
+  <g transform="translate(550, 192)" text-anchor="middle">
+    <text class="title-cinzel" x="0" y="0" font-size="12" font-weight="700" fill="#287796" letter-spacing="0.22em">ACADEMY OF LEGAL ARTIFICIAL INTELLIGENCE</text>
+    <line x1="-150" y1="12" x2="150" y2="12" stroke="#287796" stroke-width="1.5"/>
   </g>
 
   <!-- Certificate Heading -->
-  <text class="title-cinzel" x="550" y="248" font-size="28" font-weight="700" fill="#0f172a" text-anchor="middle" letter-spacing="0.06em">
+  <text class="title-cinzel" x="550" y="248" font-size="28" font-weight="700" fill="#02212e" text-anchor="middle" letter-spacing="0.06em">
     CERTIFICATE OF PROFESSIONAL MASTERY
   </text>
 
@@ -476,11 +466,11 @@ function generateCertificateSvg(cred) {
   </text>
 
   <!-- Candidate Name -->
-  <text class="serif-name" x="550" y="356" font-size="46" font-weight="700" fill="#0f172a" text-anchor="middle" letter-spacing="-0.01em">
+  <text class="serif-name" x="550" y="356" font-size="46" font-weight="700" fill="#02212e" text-anchor="middle" letter-spacing="-0.01em">
     ${holder}
   </text>
   <line x1="260" y1="376" x2="840" y2="376" stroke="#e2e8f0" stroke-width="1"/>
-  <line x1="400" y1="380" x2="700" y2="380" stroke="url(#goldBorder)" stroke-width="1.5"/>
+  <line x1="420" y1="380" x2="680" y2="380" stroke="#287796" stroke-width="2"/>
 
   <!-- Accomplishment Paragraph -->
   <text class="sans-body" x="550" y="424" font-size="15" fill="#475569" text-anchor="middle">
@@ -491,40 +481,39 @@ function generateCertificateSvg(cred) {
   </text>
 
   <!-- Certification Title -->
-  <text class="title-cinzel" x="550" y="508" font-size="28" font-weight="900" fill="#07232f" text-anchor="middle">
+  <text class="title-cinzel" x="550" y="508" font-size="28" font-weight="900" fill="#02212e" text-anchor="middle">
     ${title}
   </text>
 
-  <!-- Divider Ribbon -->
+  <!-- Divider Line -->
   <line x1="320" y1="535" x2="780" y2="535" stroke="#e2e8f0" stroke-width="1"/>
-  <line x1="460" y1="538" x2="640" y2="538" stroke="url(#goldBorder)" stroke-width="1.5"/>
+  <line x1="480" y1="538" x2="620" y2="538" stroke="#287796" stroke-width="2"/>
 
-  <!-- Bottom Section: Official Verification Registry (Left) & Lawxy Gold Seal (Right) -->
+  <!-- Bottom Section: Official Verification Registry (Left) & Lawxy Security Badge (Right) -->
   
   <!-- Left: Metadata & Registry Verification Block -->
   <g transform="translate(100, 595)" class="sans-body">
-    <text x="0" y="0" font-size="11" font-weight="700" fill="#07232f" letter-spacing="0.1em" text-transform="uppercase">OFFICIAL VERIFICATION REGISTRY</text>
+    <text x="0" y="0" font-size="11" font-weight="700" fill="#287796" letter-spacing="0.1em" text-transform="uppercase">OFFICIAL VERIFICATION REGISTRY</text>
     <line x1="0" y1="8" x2="280" y2="8" stroke="#e2e8f0" stroke-width="1"/>
-    <text x="0" y="28" font-size="13" font-weight="600" fill="#0f172a">Credential ID: <tspan class="mono-code" fill="#0284c7">${credId}</tspan></text>
-    <text x="0" y="48" font-size="13" fill="#475569">Issue Date: <tspan font-weight="600" fill="#0f172a">${issuedDate}</tspan></text>
-    <text x="0" y="68" font-size="12.5" fill="#64748b">Verification URL: <tspan fill="#0284c7">verify.lawxyai.com/c/${credId}</tspan></text>
+    <text x="0" y="28" font-size="13" font-weight="600" fill="#02212e">Credential ID: <tspan class="mono-code" fill="#287796">${credId}</tspan></text>
+    <text x="0" y="48" font-size="13" fill="#475569">Issue Date: <tspan font-weight="600" fill="#02212e">${issuedDate}</tspan></text>
+    <text x="0" y="68" font-size="12.5" fill="#64748b">Verification URL: <tspan fill="#287796">verify.lawxyai.com/c/${credId}</tspan></text>
     <text x="0" y="88" font-size="11" font-weight="600" fill="#059669">✓ Certified Practitioner · Verified Passing Score: ${score}% (Min 80%)</text>
   </g>
 
-  <!-- Right: Embossed 3D Gold Medal Seal with Lawxy Badge -->
-  <g transform="translate(850, 630)" filter="url(#sealShadow)">
-    <!-- Outer Starburst/Rope Ring -->
-    <circle cx="0" cy="0" r="58" fill="url(#goldSeal)"/>
-    <circle cx="0" cy="0" r="52" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.85"/>
-    <circle cx="0" cy="0" r="48" fill="none" stroke="#8e6e18" stroke-width="1.2" stroke-dasharray="3,2"/>
-    <circle cx="0" cy="0" r="43" fill="url(#goldSeal)"/>
+  <!-- Right: Modern Lawxy Security Accreditation Badge (Navy & Teal) -->
+  <g transform="translate(860, 630)" filter="url(#badgeShadow)">
+    <!-- Outer Deep Navy Circle -->
+    <circle cx="0" cy="0" r="54" fill="#02212e"/>
+    <circle cx="0" cy="0" r="48" fill="none" stroke="#287796" stroke-width="1.5"/>
+    <circle cx="0" cy="0" r="44" fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="2,2" opacity="0.6"/>
     
-    <!-- Laurel Wreath & Inner Star -->
-    <path d="M -26 -6 C -28 -18 -14 -32 0 -36 C 14 -32 28 -18 26 -6 C 24 14 14 30 0 36 C -14 30 -24 14 -26 -6 Z" fill="none" stroke="#fff9d2" stroke-width="1.2" opacity="0.75"/>
-    <polygon points="0,-20 6,-7 19,-7 9,2 13,15 0,8 -13,15 -9,2 -19,-7 -6,-7" fill="#fff9d2" opacity="0.95"/>
+    <!-- Inner Checkmark & Lawxy Emblem -->
+    <circle cx="0" cy="-6" r="16" fill="#287796"/>
+    <path d="M -6 -6 L -1 -1 L 7 -9" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     
-    <text class="title-cinzel" x="0" y="24" font-size="10" font-weight="900" fill="#453102" text-anchor="middle" letter-spacing="0.1em">LAWXY</text>
-    <text class="title-cinzel" x="0" y="34" font-size="6.5" font-weight="700" fill="#5b4104" text-anchor="middle" letter-spacing="0.12em">OFFICIAL SEAL</text>
+    <text class="title-cinzel" x="0" y="22" font-size="9.5" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.12em">LAWXY</text>
+    <text class="sans-body" x="0" y="32" font-size="6.5" font-weight="700" fill="#80e5ff" text-anchor="middle" letter-spacing="0.16em">VERIFIED</text>
   </g>
 </svg>`;
 }
