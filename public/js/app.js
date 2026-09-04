@@ -1299,8 +1299,8 @@ async function submitExam() {
         </div>
 
         <!-- Harvey Styled Certificate Box -->
-        <div style="width: 100%; max-width: 860px; background: #ffffff; border: 1px solid var(--lx-border); border-radius: 8px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); padding: 12px; overflow: hidden;">
-          <div style="width: 100%; aspect-ratio: 10 / 7; position: relative;">
+        <div style="width: 100%; max-width: 920px; background: #ffffff; border: 1px solid var(--lx-border); border-radius: 8px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 14px; overflow: hidden;">
+          <div style="width: 100%; aspect-ratio: 1100 / 780; position: relative;">
             <iframe src="${certSvgUrl}" style="width: 100%; height: 100%; border: none; border-radius: 4px; pointer-events: none;" title="Lawxy Academy Certificate"></iframe>
           </div>
         </div>
@@ -1511,8 +1511,8 @@ async function lookupCredential(id) {
       <div style="display: flex; flex-direction: column; align-items: center; gap: 32px; margin-bottom: 36px;">
         
         <!-- Certificate Canvas Card Box -->
-        <div style="width: 100%; max-width: 860px; background: #ffffff; border: 1px solid var(--lx-border); border-radius: 8px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); padding: 12px; overflow: hidden;">
-          <div style="width: 100%; aspect-ratio: 10 / 7; position: relative;">
+        <div style="width: 100%; max-width: 920px; background: #ffffff; border: 1px solid var(--lx-border); border-radius: 8px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 14px; overflow: hidden;">
+          <div style="width: 100%; aspect-ratio: 1100 / 780; position: relative;">
             <iframe src="${certSvgUrl}" style="width: 100%; height: 100%; border: none; border-radius: 4px; pointer-events: none;" title="Lawxy Academy Certificate"></iframe>
           </div>
         </div>
