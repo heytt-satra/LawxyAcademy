@@ -1,5 +1,5 @@
 // Lawxy Video-Based 220 MCQ Question Bank
-module.exports = {
+window.LAWXY_QUESTION_BANK = {
   "dino_room": {
     "title": "Dino Room",
     "questions": [

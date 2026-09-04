@@ -18,7 +18,7 @@ const CERTIFICATIONS_DATA = {
     outcome: 'The learner understands how to use Lawxy effectively, safely, and ethically for everyday legal work.',
     duration: '18 Hours',
     modulesCount: 10,
-    passingScore: 70,
+    passingScore: 80,
     shortDesc: 'Master the core mechanics, prompting techniques, verification workflows, and ethical guardrails required to safely use AI in daily legal practice.',
     modules: [
       {
@@ -336,7 +336,7 @@ const CERTIFICATIONS_DATA = {
     outcome: 'The learner can use Lawxy for complex, substantive legal workflows rather than simply generating text.',
     duration: '26 Hours',
     modulesCount: 12,
-    passingScore: 75,
+    passingScore: 80,
     shortDesc: 'Master case analysis, multi-document synthesis, cross-border translation, due diligence at scale, and high-stakes litigation strategy.',
     modules: [
       { id: 'c2-m1', title: '1. Advanced Reasoning & Architectures', learningObjective: 'Construct multi-step legal reasoning pipelines and knowledge graph queries for complex litigation.', superDemo: { title: 'Build Multi-Layer Legal Chain-of-Thought Pipeline', context: 'Setting up an architectural reasoning tree for complex antitrust liability.', methodology: 'Deconstruct statutory elements into sequential logical dependencies.', action: 'Execute chain-of-thought pipeline in Lawxy AgentFlow.', aiExplanation: 'Iterative reasoning isolates intermediate legal fallacies.', verify: 'Confirm each intermediate premise is supported by record evidence.', judgment: 'Counsel decides whether to pursue per se or rule of reason claims.', takeaway: 'Decompose complex legal questions into sequential deductive steps.' }, quiz: [{ prompt: 'Why is Chain-of-Thought prompting superior for complex statutory interpretations?', options: ['It uses 90% less cloud bandwidth.', 'It forces the model to articulate intermediate legal reasoning steps, exposing logical gaps before concluding.', 'It makes the output immune to court objections.', 'It translates English statutes into Latin.'], correctIndex: 1, explanation: 'CoT prompting breaks multi-element statutory tests into transparent intermediate steps, significantly reducing analytical errors.' }] },
@@ -364,7 +364,7 @@ const CERTIFICATIONS_DATA = {
     outcome: 'The learner can conduct a structured contract review using Lawxy, identify risks, suggest changes, and produce a usable reviewed/redlined agreement.',
     duration: '22 Hours',
     modulesCount: 15,
-    passingScore: 75,
+    passingScore: 80,
     shortDesc: 'Master structured contract review, automated risk detection, playbook enforcement, multi-party redlining, and negotiation position generation.',
     modules: [
       { id: 'c3-m1', title: '1. Contract Review Fundamentals', learningObjective: 'Set up review objectives, risk appetite, and review methodology.', superDemo: { title: 'Set Up a Structured Contract Review in Lawxy', context: 'Receiving a 40-page vendor agreement with strict client risk boundaries.', methodology: 'Define review objectives, establish risk thresholds, and select review playbook.', action: 'Configure Lawxy Contract Review Studio workspace with matter playbook.', aiExplanation: 'Playbook rules parameterize risk detection thresholds for the LLM.', verify: 'Check that custom liability thresholds ($1M cap) are loaded into system prompts.', judgment: 'Reviewer confirms whether client risk appetite is aggressive or conservative.', takeaway: 'Always calibrate AI review settings against specific client risk appetite before reviewing.' }, quiz: [{ prompt: 'Why must client risk appetite be parameterized before starting an AI-assisted contract review?', options: ['To speed up PDF rendering.', 'Because what constitutes an acceptable risk varies drastically between a startup and an enterprise company.', 'To bypass contract signature requirements.', 'To convert currency amounts automatically.'], correctIndex: 1, explanation: 'Risk tolerance defines redlining severity; an aggressive growth company accepts provisions an enterprise procurement team would reject.' }] },
@@ -948,14 +948,81 @@ function switchStudioTab(tabId, btn) {
 }
 
 // ============================================================================
-// TOUGH END-OF-LECTURE QUESTIONS (MANDATORY CHECKPOINT)
+// VIDEO-BASED QUESTION BANK & END-OF-LECTURE CHECKPOINTS
 // ============================================================================
+
+const MODULE_VIDEO_KEY_MAP = {
+  'c1-m1': 'ask_lawxy',
+  'c1-m2': 'word_add_in',
+  'c1-m3': 'ask_lawxy',
+  'c1-m4': 'general_research_agent',
+  'c1-m5': 'contract_drafting',
+  'c1-m6': 'intelligent_dms',
+  'c1-m7': 'general_research_agent',
+  'c1-m8': 'ask_lawxy',
+  'c1-m9': 'word_add_in',
+  'c1-m10': 'contract_drafting',
+
+  'c2-m1': 'general_research_agent',
+  'c2-m2': 'case_analyser',
+  'c2-m3': 'past_precedence_research',
+  'c2-m4': 'past_precedence_research',
+  'c2-m5': 'redlining_and_review',
+  'c2-m6': 'dino_room',
+  'c2-m7': 'contract_drafting',
+  'c2-m8': 'translex',
+  'c2-m9': 'intelligent_dms',
+  'c2-m10': 'past_precedence_research',
+  'c2-m11': 'general_research_agent',
+  'c2-m12': 'case_analyser',
+
+  'c3-m1': 'intelligent_dms',
+  'c3-m2': 'intelligent_dms',
+  'c3-m3': 'redlining_and_review',
+  'c3-m4': 'redlining_and_review',
+  'c3-m5': 'redlining_and_review',
+  'c3-m6': 'contract_drafting',
+  'c3-m7': 'intelligent_dms',
+  'c3-m8': 'redlining_and_review',
+  'c3-m9': 'word_add_in',
+  'c3-m10': 'contract_drafting',
+  'c3-m11': 'compare_lens',
+  'c3-m12': 'dino_room',
+  'c3-m13': 'dino_room',
+  'c3-m14': 'word_add_in',
+  'c3-m15': 'compare_lens'
+};
+
+const CERT_VIDEO_POOLS = {
+  'cert-1': ['ask_lawxy', 'word_add_in', 'general_research_agent', 'contract_drafting', 'intelligent_dms'],
+  'cert-2': ['general_research_agent', 'case_analyser', 'past_precedence_research', 'dino_room', 'translex', 'intelligent_dms', 'word_add_in'],
+  'cert-3': ['intelligent_dms', 'compare_lens', 'redlining_and_review', 'contract_drafting', 'word_add_in', 'dino_room']
+};
 
 function renderModuleQuiz(mod) {
   const container = document.getElementById('lecture-quiz-questions-list');
-  const questions = mod.quiz || [];
+  const videoKey = MODULE_VIDEO_KEY_MAP[mod.id] || 'ask_lawxy';
+  
+  let questions = [];
+  if (window.LAWXY_QUESTION_BANK && window.LAWXY_QUESTION_BANK[videoKey] && window.LAWXY_QUESTION_BANK[videoKey].questions.length > 0) {
+    const pool = window.LAWXY_QUESTION_BANK[videoKey].questions;
+    // Select 3 questions mapped to this module from the video's 20-question bank
+    const modNum = parseInt((mod.id.split('-m')[1] || '1'), 10);
+    const startIdx = ((modNum - 1) * 3) % Math.max(1, pool.length - 3);
+    questions = pool.slice(startIdx, startIdx + 3).map(q => ({
+      prompt: q.prompt,
+      options: [...q.options],
+      correctIndex: q.correctIndex,
+      explanation: q.explanation || `Visibly demonstrated in the ${q.sectionTitle || 'Lawxy'} workflow video.`
+    }));
+  } else {
+    questions = mod.quiz || [];
+  }
 
-  if (questions.length === 0) {
+  STATE.moduleQuiz.questions = questions;
+  STATE.moduleQuiz.answers = {};
+
+  if (!questions || questions.length === 0) {
     container.innerHTML = `<div style="color: #6b7280; font-size: 14px;">Review complete. Proceed to next module.</div>`;
     return;
   }
@@ -985,32 +1052,31 @@ function selectModuleQuizAnswer(qIdx, optIdx) {
 }
 
 function evaluateLectureQuiz() {
-  const cert = CERTIFICATIONS_DATA[STATE.currentCertId] || CERTIFICATIONS_DATA['cert-1'];
-  const mod = cert.modules.find(m => m.id === STATE.currentModuleId) || cert.modules[0];
-  const questions = mod.quiz || [];
+  const questions = STATE.moduleQuiz.questions || [];
 
   let correctCount = 0;
   questions.forEach((q, idx) => {
     const selected = STATE.moduleQuiz.answers[idx];
     const fb = document.getElementById(`lq-fb-${idx}`);
-    fb.style.display = 'block';
+    if (fb) fb.style.display = 'block';
 
     if (selected === q.correctIndex) {
       correctCount++;
-      fb.innerHTML = `<div style="color: #059669; padding: 8px 12px; background: #ecfdf5; border-radius: 4px; border: 1px solid #a7f3d0;">✓ <strong>Correct:</strong> ${escapeHtml(q.explanation)}</div>`;
+      if (fb) fb.innerHTML = `<div style="color: #059669; padding: 8px 12px; background: #ecfdf5; border-radius: 4px; border: 1px solid #a7f3d0;">✓ <strong>Correct:</strong> ${escapeHtml(q.explanation)}</div>`;
     } else {
-      fb.innerHTML = `<div style="color: #dc2626; padding: 8px 12px; background: #fef2f2; border-radius: 4px; border: 1px solid #fecaca;">✕ <strong>Incorrect:</strong> ${escapeHtml(q.explanation)}</div>`;
+      if (fb) fb.innerHTML = `<div style="color: #dc2626; padding: 8px 12px; background: #fef2f2; border-radius: 4px; border: 1px solid #fecaca;">✕ <strong>Incorrect:</strong> Correct answer: ${escapeHtml(q.options[q.correctIndex])}. ${escapeHtml(q.explanation)}</div>`;
     }
   });
 
   const overall = document.getElementById('lecture-quiz-overall-feedback');
   if (correctCount === questions.length) {
     STATE.moduleQuiz.isPassed = true;
-    overall.innerHTML = `<span style="color: #059669; font-weight: 700;">✓ Checkpoint Validated (${correctCount}/${questions.length})! Ready for next module.</span>`;
-    document.getElementById('btn-next-lecture-top').style.background = 'var(--lx-emerald)';
+    if (overall) overall.innerHTML = `<span style="color: #059669; font-weight: 700;">✓ Checkpoint Validated (${correctCount}/${questions.length})! Ready for next module.</span>`;
+    const nextBtn = document.getElementById('btn-next-lecture-top');
+    if (nextBtn) nextBtn.style.background = 'var(--lx-emerald)';
   } else {
     STATE.moduleQuiz.isPassed = false;
-    overall.innerHTML = `<span style="color: #dc2626; font-weight: 700;">Score: ${correctCount}/${questions.length}. Please review incorrect answers to unlock the next module.</span>`;
+    if (overall) overall.innerHTML = `<span style="color: #dc2626; font-weight: 700;">Score: ${correctCount}/${questions.length}. Please review incorrect answers to unlock the next module.</span>`;
   }
 }
 
@@ -1033,29 +1099,75 @@ function proceedToNextStep() {
 
 // ============================================================================
 // FINAL CERTIFICATION EXAM (PASS -> HARVEY CERTIFICATE / FAIL -> RETRY)
+// 20-QUESTION ROTATING RANDOMIZED POOL WITH MINIMUM 80% PASSING REQUIREMENT
 // ============================================================================
 
 const EXAM_QUESTION_BANK = {
   'cert-1': [
-    { section: 'Section A: Confidentiality & Privilege (ABA Rule 1.6)', prompt: 'An associate submits an unredacted confidential patent disclosure letter into a free online chatbot to format bullet points. Under Model Rule 1.6(c), what is the legal consequence?', options: ['No consequence because the AI is an automated machine.', 'Potential waiver of attorney-client privilege due to third-party vendor data logging and training rights.', 'Immunity from sanctions if a partner signs the filing.', 'The client receives automatic treble damages.'], correctIndex: 1, explanation: 'Entering confidential matter information into tools without zero-data-retention agreements waives confidentiality and privilege.' },
-    { section: 'Section B: Citation Forensics & Verification', prompt: 'An AI research output cites a case for an issue, but when checked against the Federal Reporter, the quoted holding does not exist. What type of hallucination occurred?', options: ['Citation Co-Optation / Fabricated Precedent.', 'A court reporter typo.', 'A nunc pro tunc docket change.', 'A non-precedential bench memo.'], correctIndex: 0, explanation: 'Citation Co-Optation occurs when an LLM invents a legal rule and attributes it to a real or fictional case caption.' },
-    { section: 'Section C: Ethical Billing & Efficiency (ABA Formal Op. 93-379)', prompt: 'An attorney completes an 8-hour contract review in 45 minutes using Lawxy. How must they bill an hourly client?', options: ['Bill the full 8 historical market hours.', 'Bill the actual 0.75 hours expended, or establish an agreed-upon fixed fee / value pricing model in advance.', 'Add a hidden $3,000 AI surcharge.', 'Bill 4 hours as a compromise.'], correctIndex: 1, explanation: 'Under Model Rule 1.5, hourly attorneys cannot bill unexpended time resulting from technological efficiency without prior client agreement.' }
-  ],
-  'cert-2': [
-    { section: 'Section A: Multi-Document Analysis & Precedence', prompt: 'In a construction dispute with 5 change orders, Exhibit B conflicts with Section 14.1 of the Master Agreement. What controls?', options: ['The Order of Precedence clause explicitly defined in the Master Agreement.', 'The document with the most signatures.', 'The document signed most recently in time regardless of contract terms.', 'The document with the largest dollar value.'], correctIndex: 0, explanation: 'The governing agreement’s Order of Precedence clause strictly dictates the hierarchy of controlling documents.' },
-    { section: 'Section B: Cross-Border Translation & Civil Law Nuance', prompt: 'When translating German BGB commercial terms into New York law, why does generic machine translation fail?', options: ['It cannot parse Cyrillic letters.', 'Civil law statutory terms (e.g. Treu und Glauben) carry distinct legal definitions that require specialized common law legal adaptation.', 'European courts prohibit English translations.', 'Translation doubles the contract length.'], correctIndex: 1, explanation: 'Civil law statutory concepts carry deep doctrinal baggage that generic translation distorts.' }
-  ],
-  'cert-3': [
-    { section: 'Section A: Risk Triage & Liability Caps', prompt: 'When auditing a SaaS MSA, the vendor limits liability to fees paid in the last 12 months, but makes customer indemnification for IP breach uncapped. How should you classify this risk?', options: ['Low / Administrative friction.', 'High / Critical Deal-Breaker requiring reciprocal liability caps or equal mutual exclusions.', 'Acceptable without edits.', 'Standard boilerplate.'], correctIndex: 1, explanation: 'Uncapped unilateral exposure paired with a one-sided counterparty limitation creates severe, asymmetrical financial risk.' },
-    { section: 'Section B: Stealth Modification Defense', prompt: 'How does an AI Contract Review Specialist detect stealth changes made by opposing counsel without track changes?', options: ['Rely on opposing counsel’s email summary.', 'Run an automated byte-level digital delta comparison between original template and returned draft.', 'Print the document on heavy paper.', 'Ask the counterparty to re-sign.'], correctIndex: 1, explanation: 'Automated digital delta comparison identifies all text modifications, deletions, and punctuation shifts instantly.' }
+    { section: 'Section A: Confidentiality & Privilege (ABA Rule 1.6)', prompt: 'An associate submits an unredacted confidential patent disclosure letter into a free online chatbot to format bullet points. Under Model Rule 1.6(c), what is the legal consequence?', options: ['No consequence because the AI is an automated machine.', 'Potential waiver of attorney-client privilege due to third-party vendor data logging and training rights.', 'Immunity from sanctions if a partner signs the filing.', 'The client receives automatic treble damages.'], correctIndex: 1, explanation: 'Entering confidential matter information into tools without zero-data-retention agreements waives confidentiality and privilege.' }
   ]
 };
+
+function generateRotatingExamQuestions(certId) {
+  const poolKeys = CERT_VIDEO_POOLS[certId] || CERT_VIDEO_POOLS['cert-1'];
+  let pool = [];
+  
+  if (window.LAWXY_QUESTION_BANK) {
+    poolKeys.forEach(vKey => {
+      if (window.LAWXY_QUESTION_BANK[vKey] && window.LAWXY_QUESTION_BANK[vKey].questions) {
+        pool = pool.concat(window.LAWXY_QUESTION_BANK[vKey].questions);
+      }
+    });
+  }
+
+  if (pool.length === 0) {
+    return (EXAM_QUESTION_BANK[certId] || EXAM_QUESTION_BANK['cert-1']).map(q => ({
+      section: q.section,
+      prompt: q.prompt,
+      options: [...q.options],
+      correctIndex: q.correctIndex,
+      explanation: q.explanation
+    }));
+  }
+
+  // Fisher-Yates Shuffle for randomized question rotation
+  const shuffledPool = [...pool];
+  for (let i = shuffledPool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffledPool[i], shuffledPool[j]] = [shuffledPool[j], shuffledPool[i]];
+  }
+
+  // Select 20 questions for the final exam
+  const selected20 = shuffledPool.slice(0, 20);
+
+  // Shuffle options for each question to rotate choices and prevent memorization
+  return selected20.map((q, idx) => {
+    const originalCorrectText = q.options[q.correctIndex];
+    const shuffledOpts = [...q.options];
+    for (let i = shuffledOpts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledOpts[i], shuffledOpts[j]] = [shuffledOpts[j], shuffledOpts[i]];
+    }
+    const newCorrectIndex = shuffledOpts.indexOf(originalCorrectText);
+
+    return {
+      section: `Assessment Module · Video: ${q.sectionTitle || 'Lawxy Track'}`,
+      prompt: q.prompt,
+      options: shuffledOpts,
+      correctIndex: newCorrectIndex,
+      explanation: q.explanation || 'Verified directly from the video demonstration.'
+    };
+  });
+}
 
 function startFinalExam(certId) {
   STATE.exam.currentCertId = certId || STATE.currentCertId || 'cert-1';
   STATE.exam.currentQuestionIndex = 0;
   STATE.exam.answers = {};
-  STATE.exam.timeLeft = 7200;
+  STATE.exam.timeLeft = 7200; // 120 mins
+  
+  // Randomly rotate questions and options on every exam start / retake
+  STATE.exam.activeQuestions = generateRotatingExamQuestions(STATE.exam.currentCertId);
 
   switchView('exam');
 
@@ -1082,11 +1194,18 @@ function startExamTimer() {
 
 function renderExamQuestion() {
   const certId = STATE.exam.currentCertId;
-  const questions = EXAM_QUESTION_BANK[certId] || EXAM_QUESTION_BANK['cert-1'];
+  const cert = CERTIFICATIONS_DATA[certId] || CERTIFICATIONS_DATA['cert-1'];
+  const questions = STATE.exam.activeQuestions || [];
   const q = questions[STATE.exam.currentQuestionIndex];
   if (!q) return;
 
-  document.getElementById('exam-q-section').innerText = q.section;
+  const sectionEl = document.getElementById('exam-q-section');
+  if (sectionEl) {
+    sectionEl.innerHTML = `
+      <span>${escapeHtml(q.section)}</span>
+      <span style="margin-left: 12px; font-size: 11px; padding: 2px 8px; border-radius: 4px; background: #e0f2fe; color: #0369a1; font-weight: 600;">Passing: 80% (16/20)</span>
+    `;
+  }
   document.getElementById('exam-q-counter').innerText = `Question ${STATE.exam.currentQuestionIndex + 1} of ${questions.length}`;
   document.getElementById('exam-q-prompt').innerText = q.prompt;
 
@@ -1098,7 +1217,7 @@ function renderExamQuestion() {
         <div style="width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid ${isSelected ? 'var(--lx-primary)' : '#d1d5db'}; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: ${isSelected ? 'var(--lx-primary)' : '#6b7280'}; flex-shrink: 0; background: ${isSelected ? '#f0f7fa' : 'transparent'};">
           ${String.fromCharCode(65 + idx)}
         </div>
-        <span style="font-size: 14px; line-height: 1.5; color: #111827;">${opt}</span>
+        <span style="font-size: 14px; line-height: 1.5; color: #111827;">${escapeHtml(opt)}</span>
       </div>
     `;
   }).join('');
@@ -1116,8 +1235,7 @@ function selectExamAnswer(optionIdx) {
 }
 
 function nextExamQuestion() {
-  const certId = STATE.exam.currentCertId;
-  const questions = EXAM_QUESTION_BANK[certId] || EXAM_QUESTION_BANK['cert-1'];
+  const questions = STATE.exam.activeQuestions || [];
 
   if (STATE.exam.currentQuestionIndex < questions.length - 1) {
     STATE.exam.currentQuestionIndex++;
@@ -1139,7 +1257,7 @@ async function submitExam() {
 
   const certId = STATE.exam.currentCertId;
   const cert = CERTIFICATIONS_DATA[certId] || CERTIFICATIONS_DATA['cert-1'];
-  const questions = EXAM_QUESTION_BANK[certId] || EXAM_QUESTION_BANK['cert-1'];
+  const questions = STATE.exam.activeQuestions || [];
 
   let correctCount = 0;
   questions.forEach((q, idx) => {
@@ -1148,8 +1266,9 @@ async function submitExam() {
     }
   });
 
-  const scorePct = Math.round((correctCount / questions.length) * 100);
-  const isPassed = scorePct >= cert.passingScore;
+  const totalQuestions = questions.length || 20;
+  const scorePct = Math.round((correctCount / totalQuestions) * 100);
+  const isPassed = scorePct >= 80; // Minimum 80% passing threshold for certificate
 
   document.getElementById('exam-question-viewport').style.display = 'none';
   const resultViewport = document.getElementById('exam-result-viewport');
@@ -1176,7 +1295,7 @@ async function submitExam() {
         <div style="text-align: center;">
           <span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #059669; letter-spacing: 0.08em;">Official Credential Earned</span>
           <h1 class="section-heading-serif" style="font-size: 36px; margin: 4px 0 8px;">Congratulations, ${STATE.user.name}!</h1>
-          <p style="color: #4b5563; font-size: 15px;">You passed the <strong>${cert.title}</strong> examination with a score of <strong>${scorePct}%</strong>.</p>
+          <p style="color: #4b5563; font-size: 15px;">You passed the <strong>${cert.title}</strong> examination with a score of <strong>${scorePct}%</strong> (${correctCount}/${totalQuestions} correct).</p>
         </div>
 
         <!-- Harvey Styled Certificate Box -->
@@ -1193,6 +1312,10 @@ async function submitExam() {
               <tr style="border-top: 1px solid var(--lx-border); border-bottom: 1px solid var(--lx-border);">
                 <td style="padding: 14px 0; font-weight: 700; color: #111827; width: 40%;">Student</td>
                 <td style="padding: 14px 0; color: #374151;">${STATE.user.name}</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--lx-border);">
+                <td style="padding: 14px 0; font-weight: 700; color: #111827;">Score Achieved</td>
+                <td style="padding: 14px 0; color: #059669; font-weight: 700;">${scorePct}% (Passing threshold: 80%)</td>
               </tr>
               <tr style="border-bottom: 1px solid var(--lx-border);">
                 <td style="padding: 14px 0; font-weight: 700; color: #111827;">Certificate Link</td>
@@ -1224,26 +1347,27 @@ async function submitExam() {
       </div>
     `;
   } else {
-    // Fail Screen with Try Again Button
+    // Fail Screen with Try Again Button (Re-rotates questions on Retake)
     resultViewport.innerHTML = `
       <div class="exam-result-box">
         <div style="font-size: 40px; margin-bottom: 12px;">⚠️</div>
         <h2 style="font-family: var(--font-serif); font-size: 28px; color: #111827; margin-bottom: 8px;">Assessment Not Passed</h2>
         <p style="color: #4b5563; font-size: 15px; max-width: 500px; margin: 0 auto 24px;">
-          Your final score was <strong>${scorePct}%</strong> (${correctCount}/${questions.length} correct). Passing requires a minimum of <strong>${cert.passingScore}%</strong>.
+          Your final score was <strong>${scorePct}%</strong> (${correctCount}/${totalQuestions} correct). Passing requires a minimum of <strong>80% (16/20 correct)</strong>.
         </p>
 
         <div style="background: var(--lx-bg-subtle); border: 1px solid var(--lx-border); border-radius: 6px; padding: 20px; max-width: 560px; margin: 0 auto 32px; text-align: left; font-size: 13.5px;">
           <div style="font-weight: 700; margin-bottom: 8px; color: #111827;">Core Competency Review Required:</div>
           <ul style="padding-left: 18px; color: #4b5563; display: flex; flex-direction: column; gap: 6px;">
-            <li>Review SuperDemo task execution and verify legal source methodology.</li>
-            <li>Re-evaluate ethical constraints and 4-step authority verification.</li>
+            <li>Review video workflows and practice formative checkpoints.</li>
+            <li>Re-evaluate demonstrated product capabilities and key findings.</li>
+            <li>Note: Exam questions and options are randomized and rotated on every attempt.</li>
           </ul>
         </div>
 
         <div style="display: flex; justify-content: center; gap: 14px;">
           <button class="btn-harvey-primary" style="padding: 12px 28px;" onclick="startFinalExam('${cert.id}')">
-            🔄 Retake Exam (Try Again)
+            🔄 Retake Exam (Rotated Questions)
           </button>
           <button class="btn-harvey-secondary" onclick="openCourse('${cert.id}')">Review Modules</button>
         </div>

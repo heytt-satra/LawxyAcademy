@@ -16,7 +16,7 @@ export const CERTIFICATIONS = [
     coreOutcome: 'The learner understands how to use Lawxy effectively, safely, and ethically for everyday legal work.',
     duration: '18 Hours',
     modulesCount: 10,
-    passingScore: 70,
+    passingScore: 80,
     shortDescription: 'Master the core mechanics, prompting techniques, verification workflows, and ethical guardrails required to safely use AI in daily legal practice.',
     modules: [
       {
@@ -346,7 +346,7 @@ export const CERTIFICATIONS = [
     coreOutcome: 'The learner can use Lawxy for complex, substantive legal workflows rather than simply generating text.',
     duration: '26 Hours',
     modulesCount: 12,
-    passingScore: 75,
+    passingScore: 80,
     shortDescription: 'Master case analysis, multi-document synthesis, cross-border translation, due diligence at scale, and high-stakes litigation strategy.',
     modules: [
       {
@@ -460,7 +460,7 @@ export const CERTIFICATIONS = [
     coreOutcome: 'The learner can conduct a structured contract review using Lawxy, identify risks, suggest changes, and produce a usable reviewed/redlined agreement.',
     duration: '22 Hours',
     modulesCount: 15,
-    passingScore: 75,
+    passingScore: 80,
     shortDescription: 'Master structured contract review, automated risk detection, playbook enforcement, multi-party redlining, and negotiation position generation.',
     modules: [
       {
