@@ -355,6 +355,21 @@ function sendSvg(res, svgContent) {
   res.end(svgContent);
 }
 
+let LAWXY_LOGO_BASE64 = '';
+try {
+  const logoTxtPath = path.join(PUBLIC_DIR, 'images', 'lawxy-logo-base64.txt');
+  if (fs.existsSync(logoTxtPath)) {
+    LAWXY_LOGO_BASE64 = fs.readFileSync(logoTxtPath, 'utf8').trim();
+  } else {
+    const logoPngPath = path.join(PUBLIC_DIR, 'images', 'lawxy-logo.png');
+    if (fs.existsSync(logoPngPath)) {
+      LAWXY_LOGO_BASE64 = 'data:image/png;base64,' + fs.readFileSync(logoPngPath).toString('base64');
+    }
+  }
+} catch (e) {
+  console.error('Error loading logo base64:', e);
+}
+
 function generateCredentialId(level = 1) {
   const year = new Date().getFullYear();
   const certCode = level === 2 ? 'AINL2' : 'AINL';
@@ -369,15 +384,18 @@ function generateCertificateSvg(cred) {
   const credId = cred.credentialId || 'LXY-FND-2026-000184';
   const score = cred.scorePercentage || 88;
 
+  const logoTag = LAWXY_LOGO_BASE64 ? 
+    `<image href="${LAWXY_LOGO_BASE64}" x="390" y="90" width="320" height="76" preserveAspectRatio="xMidYMid meet" />` :
+    `<text class="serif-name" x="550" y="145" font-size="44" font-weight="900" fill="#07232f" text-anchor="middle" letter-spacing="-0.02em">Lawxy</text>`;
+
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 780" width="100%" height="100%">
   <defs>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Fragment+Mono&amp;family=Alex+Brush&amp;display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&amp;family=DM+Sans:wght@400;500;600;700&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Fragment+Mono&amp;display=swap');
       .title-cinzel { font-family: 'Cinzel', serif; letter-spacing: 0.08em; }
       .serif-name { font-family: 'Libre Caslon Text', Georgia, serif; }
       .sans-body { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
       .mono-code { font-family: 'Fragment Mono', monospace; }
-      .script-sign { font-family: 'Alex Brush', cursive, Georgia, serif; }
     </style>
     
     <!-- Linear & Radial Gold Gradients -->
@@ -389,11 +407,6 @@ function generateCertificateSvg(cred) {
       <stop offset="100%" stop-color="#8e6e18"/>
     </linearGradient>
 
-    <linearGradient id="slateGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#1e293b"/>
-    </linearGradient>
-
     <radialGradient id="goldSeal" cx="40%" cy="40%" r="60%">
       <stop offset="0%" stop-color="#fff9d2"/>
       <stop offset="25%" stop-color="#eec752"/>
@@ -403,7 +416,7 @@ function generateCertificateSvg(cred) {
     </radialGradient>
 
     <filter id="sealShadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="rgba(15, 23, 42, 0.25)"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="rgba(15, 23, 42, 0.22)"/>
     </filter>
 
     <pattern id="microGuilloche" width="24" height="24" patternUnits="userSpaceOnUse">
@@ -444,98 +457,74 @@ function generateCertificateSvg(cred) {
     <circle cx="16" cy="16" r="3" fill="#c59b27"/>
   </g>
 
-  <!-- Header Brand & Institute -->
-  <g transform="translate(550, 115)" text-anchor="middle">
-    <!-- Lawxy Crest Badge -->
-    <circle cx="0" cy="-28" r="22" fill="#0f172a"/>
-    <path d="M -10 -28 L 0 -38 L 10 -28 L 0 -18 Z" fill="url(#goldBorder)"/>
-    <text class="title-cinzel" x="0" y="14" font-size="16" font-weight="700" fill="#0f172a" letter-spacing="0.22em">LAWXY ACADEMY OF LEGAL AI</text>
-    <text class="sans-body" x="0" y="32" font-size="11" font-weight="600" fill="#c59b27" letter-spacing="0.16em">GLOBAL INSTITUTE OF AI-NATIVE LEGAL EXCELLENCE</text>
-    <line x1="-120" y1="44" x2="120" y2="44" stroke="url(#goldBorder)" stroke-width="1.5"/>
+  <!-- Official Lawxy Logo Header -->
+  ${logoTag}
+
+  <g transform="translate(550, 190)" text-anchor="middle">
+    <text class="title-cinzel" x="0" y="0" font-size="12" font-weight="700" fill="#07232f" letter-spacing="0.24em">ACADEMY OF LEGAL ARTIFICIAL INTELLIGENCE</text>
+    <line x1="-160" y1="12" x2="160" y2="12" stroke="url(#goldBorder)" stroke-width="1.5"/>
   </g>
 
   <!-- Certificate Heading -->
-  <text class="title-cinzel" x="550" y="200" font-size="28" font-weight="700" fill="#0f172a" text-anchor="middle" letter-spacing="0.06em">
+  <text class="title-cinzel" x="550" y="248" font-size="28" font-weight="700" fill="#0f172a" text-anchor="middle" letter-spacing="0.06em">
     CERTIFICATE OF PROFESSIONAL MASTERY
   </text>
 
   <!-- Presentation Statement -->
-  <text class="sans-body" x="550" y="235" font-size="14.5" font-style="italic" fill="#64748b" text-anchor="middle">
-    This is to officially certify and attest that
+  <text class="sans-body" x="550" y="288" font-size="15" font-style="italic" fill="#64748b" text-anchor="middle">
+    This is to officially certify that
   </text>
 
   <!-- Candidate Name -->
-  <text class="serif-name" x="550" y="300" font-size="44" font-weight="700" fill="#0f172a" text-anchor="middle" letter-spacing="-0.01em">
+  <text class="serif-name" x="550" y="356" font-size="46" font-weight="700" fill="#0f172a" text-anchor="middle" letter-spacing="-0.01em">
     ${holder}
   </text>
-  <line x1="280" y1="318" x2="820" y2="318" stroke="#e2e8f0" stroke-width="1"/>
-  <line x1="420" y1="322" x2="680" y2="322" stroke="url(#goldBorder)" stroke-width="1.5"/>
+  <line x1="260" y1="376" x2="840" y2="376" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="400" y1="380" x2="700" y2="380" stroke="url(#goldBorder)" stroke-width="1.5"/>
 
   <!-- Accomplishment Paragraph -->
-  <text class="sans-body" x="550" y="358" font-size="14" fill="#475569" text-anchor="middle">
+  <text class="sans-body" x="550" y="424" font-size="15" fill="#475569" text-anchor="middle">
     has successfully completed the comprehensive curriculum, video-grounded practice simulations,
   </text>
-  <text class="sans-body" x="550" y="380" font-size="14" fill="#475569" text-anchor="middle">
+  <text class="sans-body" x="550" y="448" font-size="15" fill="#475569" text-anchor="middle">
     and passed the proctored practical examination with verified competency in
   </text>
 
   <!-- Certification Title -->
-  <text class="title-cinzel" x="550" y="432" font-size="26" font-weight="900" fill="#0f172a" text-anchor="middle">
+  <text class="title-cinzel" x="550" y="508" font-size="28" font-weight="900" fill="#07232f" text-anchor="middle">
     ${title}
   </text>
 
-  <!-- Score & Honors Badge -->
-  <g transform="translate(550, 468)">
-    <rect x="-170" y="-14" width="340" height="28" rx="14" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1"/>
-    <text class="sans-body" x="0" y="4" font-size="12" font-weight="700" fill="#047857" text-anchor="middle" letter-spacing="0.06em">
-      ✓ PASSED WITH DISTINCTION · SCORE: ${score}% (MIN 80%)
-    </text>
-  </g>
+  <!-- Divider Ribbon -->
+  <line x1="320" y1="535" x2="780" y2="535" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="460" y1="538" x2="640" y2="538" stroke="url(#goldBorder)" stroke-width="1.5"/>
 
-  <!-- Bottom Section: Metadata (Left), Seal (Center), Signatures (Right) -->
+  <!-- Bottom Section: Official Verification Registry (Left) & Lawxy Gold Seal (Right) -->
   
-  <!-- Left: Metadata & Verification -->
-  <g transform="translate(90, 580)" class="sans-body">
-    <text x="0" y="0" font-size="10.5" font-weight="700" fill="#94a3b8" letter-spacing="0.08em" text-transform="uppercase">Credential Verification</text>
-    <text x="0" y="20" font-size="12.5" font-weight="600" fill="#0f172a">Credential ID: <tspan class="mono-code" fill="#0284c7">${credId}</tspan></text>
-    <text x="0" y="38" font-size="12.5" fill="#475569">Issue Date: <tspan font-weight="500" fill="#0f172a">${issuedDate}</tspan></text>
-    <text x="0" y="56" font-size="12" fill="#64748b">Verification URL: <tspan fill="#0284c7">verify.lawxyai.com/c/${credId}</tspan></text>
-    <text x="0" y="74" font-size="10" font-weight="500" fill="#94a3b8">Cryptographic SHA-256 Audit: Verified &amp; Immutable</text>
+  <!-- Left: Metadata & Registry Verification Block -->
+  <g transform="translate(100, 595)" class="sans-body">
+    <text x="0" y="0" font-size="11" font-weight="700" fill="#07232f" letter-spacing="0.1em" text-transform="uppercase">OFFICIAL VERIFICATION REGISTRY</text>
+    <line x1="0" y1="8" x2="280" y2="8" stroke="#e2e8f0" stroke-width="1"/>
+    <text x="0" y="28" font-size="13" font-weight="600" fill="#0f172a">Credential ID: <tspan class="mono-code" fill="#0284c7">${credId}</tspan></text>
+    <text x="0" y="48" font-size="13" fill="#475569">Issue Date: <tspan font-weight="600" fill="#0f172a">${issuedDate}</tspan></text>
+    <text x="0" y="68" font-size="12.5" fill="#64748b">Verification URL: <tspan fill="#0284c7">verify.lawxyai.com/c/${credId}</tspan></text>
+    <text x="0" y="88" font-size="11" font-weight="600" fill="#059669">✓ Certified Practitioner · Verified Passing Score: ${score}% (Min 80%)</text>
   </g>
 
-  <!-- Center: Embossed 3D Gold Medal Seal -->
-  <g transform="translate(550, 615)" filter="url(#sealShadow)">
+  <!-- Right: Embossed 3D Gold Medal Seal with Lawxy Badge -->
+  <g transform="translate(850, 630)" filter="url(#sealShadow)">
     <!-- Outer Starburst/Rope Ring -->
-    <circle cx="0" cy="0" r="56" fill="url(#goldSeal)"/>
-    <circle cx="0" cy="0" r="50" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.85"/>
-    <circle cx="0" cy="0" r="46" fill="none" stroke="#8e6e18" stroke-width="1.2" stroke-dasharray="3,2"/>
-    <circle cx="0" cy="0" r="41" fill="url(#goldSeal)"/>
+    <circle cx="0" cy="0" r="58" fill="url(#goldSeal)"/>
+    <circle cx="0" cy="0" r="52" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.85"/>
+    <circle cx="0" cy="0" r="48" fill="none" stroke="#8e6e18" stroke-width="1.2" stroke-dasharray="3,2"/>
+    <circle cx="0" cy="0" r="43" fill="url(#goldSeal)"/>
     
     <!-- Laurel Wreath & Inner Star -->
-    <path d="M -24 -6 C -26 -16 -12 -30 0 -34 C 12 -30 26 -16 24 -6 C 22 12 12 28 0 34 C -12 28 -22 12 -24 -6 Z" fill="none" stroke="#fff9d2" stroke-width="1" opacity="0.6"/>
-    <polygon points="0,-18 5,-6 18,-6 8,2 12,14 0,7 -12,14 -8,2 -18,-6 -5,-6" fill="#fff9d2" opacity="0.9"/>
+    <path d="M -26 -6 C -28 -18 -14 -32 0 -36 C 14 -32 28 -18 26 -6 C 24 14 14 30 0 36 C -14 30 -24 14 -26 -6 Z" fill="none" stroke="#fff9d2" stroke-width="1.2" opacity="0.75"/>
+    <polygon points="0,-20 6,-7 19,-7 9,2 13,15 0,8 -13,15 -9,2 -19,-7 -6,-7" fill="#fff9d2" opacity="0.95"/>
     
     <text class="title-cinzel" x="0" y="24" font-size="10" font-weight="900" fill="#453102" text-anchor="middle" letter-spacing="0.1em">LAWXY</text>
-    <text class="title-cinzel" x="0" y="33" font-size="6.5" font-weight="700" fill="#5b4104" text-anchor="middle" letter-spacing="0.12em">OFFICIAL SEAL</text>
-  </g>
-
-  <!-- Right: Official Signatures -->
-  <g transform="translate(850, 580)">
-    <!-- Signature 1 -->
-    <g transform="translate(0, 0)">
-      <text class="script-sign" x="60" y="16" font-size="30" fill="#0f172a" text-anchor="middle">Alistair Vance</text>
-      <line x1="-30" y1="26" x2="150" y2="26" stroke="#cbd5e1" stroke-width="1.2"/>
-      <text class="sans-body" x="60" y="40" font-size="11.5" font-weight="700" fill="#0f172a" text-anchor="middle">Dr. Alistair Vance, JD, PhD</text>
-      <text class="sans-body" x="60" y="54" font-size="10" fill="#64748b" text-anchor="middle">Dean of Legal AI Curriculum</text>
-    </g>
-
-    <!-- Signature 2 -->
-    <g transform="translate(0, 68)">
-      <text class="script-sign" x="60" y="14" font-size="28" fill="#0f172a" text-anchor="middle">Elena Rostova</text>
-      <line x1="-30" y1="22" x2="150" y2="22" stroke="#cbd5e1" stroke-width="1.2"/>
-      <text class="sans-body" x="60" y="36" font-size="11.5" font-weight="700" fill="#0f172a" text-anchor="middle">Elena Rostova, LLM</text>
-      <text class="sans-body" x="60" y="50" font-size="10" fill="#64748b" text-anchor="middle">Director of Professional Accreditations</text>
-    </g>
+    <text class="title-cinzel" x="0" y="34" font-size="6.5" font-weight="700" fill="#5b4104" text-anchor="middle" letter-spacing="0.12em">OFFICIAL SEAL</text>
   </g>
 </svg>`;
 }
